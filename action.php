@@ -47,7 +47,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 * @param unknown_type $param
 	 */
 	public function handle_metaheader_output(Doku_Event &$event, $param) {
-		/* 
+		/*
 		 * see: http://www.dokuwiki.org/devel:event:tpl_metaheader_output
 		 * $data is a two-dimensional array of all meta headers. The keys are meta, link and script.
 		 */
@@ -64,9 +64,12 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		if (!empty($placename)) {$event->data['meta'][] = array('name' => 'geo.placename','content' => $placename,);}
 		if (!(empty($lat)&&empty($lon))) {$event->data['meta'][] = array('name' => 'geo.position','content' => $lat.';'.$lon,);}
 		if (!empty($country)) {$event->data['meta'][] = array('name' => 'geo.country','content' => $country,);}
-		if (!(empty($lat)&&empty($lon))) {$event->data['meta'][] = array('name' => "ICBM",'content' => $lat.', '.$lon,);}
-		// icbm is generally useless without a dc.title, so we copy that from title
-		if (!(empty($title))) {$event->data['meta'][] = array('name' => "DC.title",'content' => $title);}
+		if (!(empty($lat)&&empty($lon))) {
+			$event->data['meta'][] = array('name' => "ICBM",'content' => $lat.', '.$lon,);
+			// icbm is generally useless without a dc.title, so we copy that from title
+			if (!(empty($title))) {$event->data['meta'][] = array('name' => "DC.title",'content' => $title);}
+		}
+
 	}
 
 	/**
