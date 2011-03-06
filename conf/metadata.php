@@ -25,3 +25,4 @@ $meta['geotag_pinggeourl'] = array('onoff');
 $meta['geotag_location_prefix'] = array('string');
 $meta['geotag_showlocation'] = array('onoff');
 $meta['geotag_hide'] = array('onoff');
+$meta['geotag_prevent_microformat_render'] = array('onoff');

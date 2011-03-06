@@ -28,19 +28,17 @@ if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 
 require_once DOKU_PLUGIN.'syntax.php';
-
+/**
+ * Handles the rendering part of the geotag plugin.
+ * @author Mark
+ *
+ */
 class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
-	public function getType() {
-		return 'substition';
-	}
+	public function getType() { return 'substition'; }
 
-	public function getPType() {
-		return 'block';
-	}
+	public function getPType() { return 'block'; }
 
-	public function getSort() {
-		return 305;
-	}
+	public function getSort() { return 305; }
 
 	public function connectTo($mode) {
 		$this->Lexer->addSpecialPattern('\{\{geotag>.*?\}\}',$mode,'plugin_geotag_geotag');
@@ -49,8 +47,8 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	public function handle($match, $state, $pos, &$handler){
 		$tags = trim(substr($match, 9, -2));
 		// parse geotag content
-		preg_match('(lat[:|=]\d*\.\d*)',$tags,$lat);
-		preg_match('(lon[:|=]\d*\.\d*)',$tags,$lon);
+		preg_match("(lat[:|=]\d*\.\d*)",$tags,$lat);
+		preg_match("(lon[:|=]\d*\.\d*)",$tags,$lon);
 		preg_match("(region[:|=][a-zA-Z\s\w'-]*)",$tags,$region);
 		preg_match("(placename[:|=][a-zA-Z\s\w'-]*)",$tags,$placename);
 		preg_match("(country[:|=][a-zA-Z\s\w'-]*)",$tags,$country);
@@ -72,13 +70,13 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		}
 
 		$data = array(
-		trim(substr($lat[0],4)),
-		trim(substr($lon[0],4)),
-		trim(substr($region[0],7)),
-		trim(substr($placename[0],10)),
-		trim(substr($country[0],8)),
-		$showlocation,
-		$style,
+			trim(substr($lat[0],4)),
+			trim(substr($lon[0],4)),
+			trim(substr($region[0],7)),
+			trim(substr($placename[0],10)),
+			trim(substr($country[0],8)),
+			$showlocation,
+			$style,
 		);
 		return $data;
 	}
@@ -86,14 +84,17 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	public function render($mode, &$renderer, $data) {
 		if ($data === false) return false;
 		list ($lat, $lon, $region, $placename, $country, $showlocation, $style) = $data;
-
 		if ($mode == 'xhtml') {
+			if ($this->getConf('geotag_prevent_microformat_render')) {
+				// config says no microformat
+				return true;
+			}
 			// render geotag microformat
 			$renderer->doc .= '<div class="geo"'.$style.'>'.$showlocation.'<span class="latitude">'.
 			$lat.'</span>;<span class="longitude">'.$lon.'</span></div>'.DOKU_LF;
 			return true;
 		} elseif ($mode == 'metadata') {
-			// render metadata
+			// render metadata (action plugin will put it in the page head)
 			$renderer->meta['geo']['region'] = $region;
 			$renderer->meta['geo']['lat'] = $lat;
 			$renderer->meta['geo']['lon'] = $lon;

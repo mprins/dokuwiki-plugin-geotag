@@ -14,7 +14,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
- 
+
 /**
  * English language file for geotag plugin
  *
@@ -22,7 +22,8 @@
  * @author  Mark C. Prins <mc.prins@gmail.com>
  */
 
-$lang['geotag_pinggeourl'] = 'ping GeoURL.org for indexing';
-$lang['geotag_location_prefix'] = 'Text to show in front of tag';
-$lang['geotag_showlocation'] = 'show location name inside tag, overriding above';
-$lang['geotag_hide'] = 'hide geotag';
+$lang['geotag_pinggeourl'] = 'Ping GeoURL.org for indexing';
+$lang['geotag_location_prefix'] = 'Default text to show in front of tag';
+$lang['geotag_showlocation'] = 'Show location name inside tag, overriding above';
+$lang['geotag_hide'] = 'Hide geotag (css)';
+$lang['geotag_prevent_microformat_render'] = 'Prevent rendering of geotag microformat';

@@ -30,7 +30,7 @@ if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once DOKU_PLUGIN.'action.php';
 
 class action_plugin_geotag extends DokuWiki_Action_Plugin {
-	
+
 	/**
 	 * Register for events.
 	 *
@@ -47,8 +47,11 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 * @param unknown_type $param
 	 */
 	public function handle_metaheader_output(Doku_Event &$event, $param) {
+		/* 
+		 * see: http://www.dokuwiki.org/devel:event:tpl_metaheader_output
+		 * $data is a two-dimensional array of all meta headers. The keys are meta, link and script.
+		 */
 		global $ID;
-
 		$title = p_get_metadata($ID,'title',true);
 		$geotags = p_get_metadata($ID,'geo',true);
 		$region=$geotags['region'];
@@ -62,23 +65,30 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		if (!(empty($lat)&&empty($lon))) {$event->data['meta'][] = array('name' => 'geo.position','content' => $lat.';'.$lon,);}
 		if (!empty($country)) {$event->data['meta'][] = array('name' => 'geo.country','content' => $country,);}
 		if (!(empty($lat)&&empty($lon))) {$event->data['meta'][] = array('name' => "ICBM",'content' => $lat.', '.$lon,);}
-		// icbm is useless without a dc.title, so we copy that from title
+		// icbm is generally useless without a dc.title, so we copy that from title
 		if (!(empty($title))) {$event->data['meta'][] = array('name' => "DC.title",'content' => $title);}
 	}
 
 	/**
 	 * Ping the geourl webservice with th eurl of the for indexing.
 	 * @param Doku_Event $event the DokuWiki event
-	 * @param unknown_type $param
+	 * @param array $param
 	 */
 	function ping_geourl(Doku_Event &$event, $param) {
+		/*
+		 * see: http://www.dokuwiki.org/devel:event:io_wikipage_write
+		 * $data[0] – The raw arguments for io_saveFile as an array. Do not change file path.
+		 * $data[0][0] – the file path.
+		 * $data[0][1] – the content to be saved, and may be modified.
+		 * $data[1] – ns: The colon separated namespace path minus the trailing page name. (false if root ns)
+		 * $data[2] – page_name: The wiki page name.
+		 * $data[3] – rev: The page revision, false for current wiki pages.
+		 */
 		if (!$this->getConf('geotag_pinggeourl')) return false; // config says don't ping
 		if ($event->data[3]) return false;                   // old revision saved
 		if (@file_exists($event->data[0][0])) return false;  // file not new
 		if (!$event->data[0][1]) return false;               // file is empty
 		if (p_get_metadata($ID,'geo',true)) return false; // no geo metadata available
-
-		global $conf;
 
 		$request = 'p='.DOKU_URL;
 		$url = 'http://geourl.org/ping/';
