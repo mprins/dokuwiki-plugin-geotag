@@ -23,8 +23,8 @@
  */
 if (!defined('DOKU_INC')) die();
 
-if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
-if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
+//if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
+//if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 
 require_once DOKU_PLUGIN.'syntax.php';
@@ -56,7 +56,10 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 
 		$showlocation=$this->getConf('geotag_location_prefix');
 		if ($this->getConf('geotag_showlocation')) {
-			$showlocation=trim(substr($placename[0],10)).': ';
+			$showlocation=trim(substr($placename[0],10));
+			if (strlen($showlocation)>0) {
+				$showlocation .=': ';
+			}
 		}
 		// read config
 		$style='';
@@ -70,13 +73,13 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		}
 
 		$data = array(
-			trim(substr($lat[0],4)),
-			trim(substr($lon[0],4)),
-			trim(substr($region[0],7)),
-			trim(substr($placename[0],10)),
-			trim(substr($country[0],8)),
-			$showlocation,
-			$style,
+		trim(substr($lat[0],4)),
+		trim(substr($lon[0],4)),
+		trim(substr($region[0],7)),
+		trim(substr($placename[0],10)),
+		trim(substr($country[0],8)),
+		$showlocation,
+		$style,
 		);
 		return $data;
 	}
