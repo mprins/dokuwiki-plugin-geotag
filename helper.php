@@ -23,18 +23,22 @@
  */
 if (!defined('DOKU_INC')) die();
 
-if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
-if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
+//if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
+//if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
 
-require_once(DOKU_INC.'inc/indexer.php');
-
+//require_once(DOKU_INC.'inc/indexer.php');
+/**
+ * helper class for geotag plugin provides shared functionality.
+ * @author Mark
+ *
+ */
 class helper_plugin_geotag extends DokuWiki_Plugin {
 
     /**
      * Constructor gets default preferences and language strings
      */
     function helper_plugin_geotag() {
-        global $ID, $conf;
+        //global $ID, $conf;
     }
 
     function getMethods() {
