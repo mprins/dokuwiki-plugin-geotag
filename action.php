@@ -43,7 +43,8 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 
 	/**
 	 * retrieve metadata and add to the head of the page using appropriate meta tags.
-	 * @param Doku_Event $event the DokuWiki event
+	 * @param Doku_Event $event the DokuWiki event. $event->data is a two-dimensional
+	 * 	array of all meta headers. The keys are meta, link and script.
 	 * @param unknown_type $param
 	 */
 	public function handle_metaheader_output(Doku_Event &$event, $param) {
