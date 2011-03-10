@@ -23,8 +23,6 @@
  */
 if (!defined('DOKU_INC')) die();
 
-//if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
-//if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 
 require_once DOKU_PLUGIN.'syntax.php';
@@ -61,11 +59,12 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 				$showlocation .=': ';
 			}
 		}
-		// read config
+		// read config for system setting
 		$style='';
 		if ($this->getConf('geotag_hide')) {
 			$style=' style="display: none;"';
 		}
+		// override config for the current tag
 		if (trim($hide[0])=='hide'){
 			$style=' style="display: none;"';
 		} elseif(trim($hide[0])=='unhide'){
@@ -97,13 +96,17 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 			$lat.'</span>;<span class="longitude">'.$lon.'</span></div>'.DOKU_LF;
 			return true;
 		} elseif ($mode == 'metadata') {
+			//$helper =&plugin_load('helper', 'geotag');
 			// render metadata (action plugin will put it in the page head)
-			$renderer->meta['geo']['region'] = $region;
 			$renderer->meta['geo']['lat'] = $lat;
 			$renderer->meta['geo']['lon'] = $lon;
-			$renderer->meta['geo']['country'] = $country;
 			$renderer->meta['geo']['placename'] = $placename;
+			$renderer->meta['geo']['region'] = $region;
+			$renderer->meta['geo']['country'] = $country;
 			return true;
+		} elseif ($mode=='odt'){
+			// TODO
+			return false;
 		}
 		return false;
 	}

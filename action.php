@@ -70,15 +70,15 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 			// icbm is generally useless without a dc.title, so we copy that from title
 			if (!(empty($title))) {$event->data['meta'][] = array('name' => "DC.title",'content' => $title);}
 		}
-
 	}
 
 	/**
-	 * Ping the geourl webservice with th eurl of the for indexing.
+	 * Ping the geourl webservice with the url of the for indexing.
 	 * @param Doku_Event $event the DokuWiki event
 	 * @param array $param
 	 */
 	function ping_geourl(Doku_Event &$event, $param) {
+		global $ID;
 		/*
 		 * see: http://www.dokuwiki.org/devel:event:io_wikipage_write
 		 * $data[0] – The raw arguments for io_saveFile as an array. Do not change file path.
@@ -92,15 +92,13 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		if ($event->data[3]) return false;                   // old revision saved
 		if (@file_exists($event->data[0][0])) return false;  // file not new
 		if (!$event->data[0][1]) return false;               // file is empty
-		if (p_get_metadata($ID,'geo',true)) return false; // no geo metadata available
+		if (p_get_metadata($ID,'geo',true)) return false; // no geo metadata available, ping is useless
 
-		$request = 'p='.DOKU_URL;
-		$url = 'http://geourl.org/ping/';
-		$header[] = 'Host: geourl.org';
-		$header[] = 'Content-type: text/html';
-		$header[] = 'Content-length: '.strlen($request);
-
+		$url = 'http://geourl.org/ping/?p='.DOKU_URL;
 		$http = new DokuHTTPClient();
-		return $http->get($url, $request);
+		dbglog("Pinging $url","--- action_plugin_geotag::ping_geourl ---");
+		$result = $http->get($url);
+		dbglog($result,"Ping response for $url");
+		return $result;
 	}
 }

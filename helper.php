@@ -14,35 +14,21 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+if (!defined('DOKU_INC')) die();
 
 /**
- * DokuWiki Plugin geotag (Helper Component)
+ * DokuWiki Plugin geotag (Helper Component). This helper class provides
+ * shared functionality for the geotag plugin .
  *
  * @license BSD
  * @author  Mark C. Prins <mc.prins@gmail.com>
- */
-if (!defined('DOKU_INC')) die();
-
-//if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
-//if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
-
-//require_once(DOKU_INC.'inc/indexer.php');
-/**
- * helper class for geotag plugin provides shared functionality.
- * @author Mark
  *
+ * @see http://www.dokuwiki.org/devel:helper_plugins
  */
 class helper_plugin_geotag extends DokuWiki_Plugin {
 
-    /**
-     * Constructor gets default preferences and language strings
-     */
-    function helper_plugin_geotag() {
-        //global $ID, $conf;
-    }
-
-    function getMethods() {
-        $result = array();
-        return $result;
-    }
+	/**
+	 * Constructor.
+	 */
+	function helper_plugin_geotag() {}
 }
