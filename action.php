@@ -14,21 +14,17 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+if (!defined('DOKU_INC')) die();
+
+if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
+require_once(DOKU_PLUGIN.'action.php');
 
 /**
  * DokuWiki Plugin geotag (Action Component)
  *
- * @license BSD
+ * @license BSD license
  * @author  Mark C. Prins <mc.prins@gmail.com>
  */
-if (!defined('DOKU_INC')) die();
-
-if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
-if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
-if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-
-require_once DOKU_PLUGIN.'action.php';
-
 class action_plugin_geotag extends DokuWiki_Action_Plugin {
 
 	/**
@@ -73,7 +69,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	}
 
 	/**
-	 * Ping the geourl webservice with the url of the for indexing.
+	 * Ping the geourl webservice with the url of the for indexing, only if the page is new.
 	 * @param Doku_Event $event the DokuWiki event
 	 * @param mixed $param not used
 	 */
@@ -95,11 +91,10 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		if (!$event->data[0][1]) return false;               // file is empty
 		if (p_get_metadata($ID,'geo',true)) return false; // no geo metadata available, ping is useless
 
-		$url = 'http://geourl.org/ping/?p='.DOKU_URL;
+		$url = 'http://geourl.org/ping/?p='.wl($ID,'',true);
 		$http = new DokuHTTPClient();
-		dbglog("Pinging $url","--- action_plugin_geotag::ping_geourl ---");
 		$result = $http->get($url);
-		dbglog($result,"Ping response for $url");
+		dbglog($result,"GeoURL Ping response for $url");
 		return $result;
 	}
 }
