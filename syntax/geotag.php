@@ -18,14 +18,14 @@
 /**
  * DokuWiki Plugin geotag (Syntax Component)
  *
- * @license BSD
+ * @license BSD license
  * @author  Mark C. Prins <mc.prins@gmail.com>
  */
 if (!defined('DOKU_INC')) die();
-
+if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 
-require_once DOKU_PLUGIN.'syntax.php';
+require_once(DOKU_PLUGIN.'syntax.php');
 /**
  * Handles the rendering part of the geotag plugin.
  * @author Mark
@@ -92,7 +92,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 				return true;
 			}
 			// render geotag microformat
-			$renderer->doc .= '<div class="geo"'.$style.' title="'.$lang['geotag_desc'].$placename.'">'.
+			// render geotag microformat
+			$renderer->doc .= '<div class="geo"'.$style.
+					' title="'.$this->getLang('geotag_desc').$placename.'">'.
 					$showlocation.'<span class="latitude">'.
 					$lat.'</span>;<span class="longitude">'.
 					$lon.'</span></div>'.DOKU_LF;
