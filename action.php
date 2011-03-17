@@ -67,7 +67,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		if (!empty($country)) {$event->data['meta'][] = array('name' => 'geo.country','content' => $country,);}
 		if (!(empty($lat)&&empty($lon))) {
 			$event->data['meta'][] = array('name' => "ICBM",'content' => $lat.', '.$lon,);
-			// icbm is generally useless without a dc.title, so we copy that from title
+			// icbm is generally useless without a dc.title, so we copy that from title unless empty
 			if (!(empty($title))) {$event->data['meta'][] = array('name' => "DC.title",'content' => $title);}
 		}
 	}
@@ -75,12 +75,13 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	/**
 	 * Ping the geourl webservice with the url of the for indexing.
 	 * @param Doku_Event $event the DokuWiki event
-	 * @param array $param
+	 * @param mixed $param not used
 	 */
 	function ping_geourl(Doku_Event &$event, $param) {
 		global $ID;
 		/*
 		 * see: http://www.dokuwiki.org/devel:event:io_wikipage_write
+		 * event data:
 		 * $data[0] – The raw arguments for io_saveFile as an array. Do not change file path.
 		 * $data[0][0] – the file path.
 		 * $data[0][1] – the content to be saved, and may be modified.

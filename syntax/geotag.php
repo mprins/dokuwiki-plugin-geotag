@@ -92,11 +92,12 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 				return true;
 			}
 			// render geotag microformat
-			$renderer->doc .= '<div class="geo"'.$style.'>'.$showlocation.'<span class="latitude">'.
-			$lat.'</span>;<span class="longitude">'.$lon.'</span></div>'.DOKU_LF;
+			$renderer->doc .= '<div class="geo"'.$style.' title="'.$lang['geotag_desc'].$placename.'">'.
+					$showlocation.'<span class="latitude">'.
+					$lat.'</span>;<span class="longitude">'.
+					$lon.'</span></div>'.DOKU_LF;
 			return true;
 		} elseif ($mode == 'metadata') {
-			//$helper =&plugin_load('helper', 'geotag');
 			// render metadata (action plugin will put it in the page head)
 			$renderer->meta['geo']['lat'] = $lat;
 			$renderer->meta['geo']['lon'] = $lon;
