@@ -18,7 +18,7 @@
 /**
  * Options for the geotag plugin
  *
- * @license BSD
+ * @license BSD license
  * @author  Mark C. Prins <mc.prins@gmail.com>
  */
 $meta['geotag_pinggeourl'] = array('onoff');

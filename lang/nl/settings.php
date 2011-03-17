@@ -18,12 +18,12 @@
 /**
  * Dutch language file for geotag plugin
  *
- * @license BSD
+ * @license BSD license
  * @author  Mark C. Prins <mc.prins@gmail.com>
  */
 
 $lang['geotag_pinggeourl'] = 'Ping GeoURL.org voor indexering';
-$lang['geotag_location_prefix'] = 'Te tonen default tekst voorafgaand aan tag';
-$lang['geotag_showlocation'] = 'Toon lokatie naam in de tag, overschrijft bovenstaande';
+$lang['geotag_location_prefix'] = 'Te tonen default tekst voorafgaand aan geotag';
+$lang['geotag_showlocation'] = 'Toon locatie naam in de geotag, overschrijft bovenstaande';
 $lang['geotag_hide'] = 'Verberg geotags (css)';
 $lang['geotag_prevent_microformat_render'] = 'Voorkom geotag microformat rendering';

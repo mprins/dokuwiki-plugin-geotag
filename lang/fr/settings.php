@@ -16,12 +16,14 @@
  */
 
 /**
- * English language file for geotag plugin
+ * French language file for geotag plugin
  *
  * @license BSD license
  * @author  Mark C. Prins <mc.prins@gmail.com>
  */
 
-// menu entry for admin plugins
-// $lang['menu'] = 'Your menu entry';
-$lang['geotag_desc'] = 'Geotag (location) for ';
+$lang['geotag_pinggeourl'] = 'Ping GeoURL.org pour l\'indexation';
+$lang['geotag_location_prefix'] = 'Texte par défaut pour voir en face de la geotag';
+$lang['geotag_showlocation'] = 'Nom Montrer emplacement à l\'intérieur Geotag, impérieuse ci-dessus';
+$lang['geotag_hide'] = 'Masquer geotag (css)';
+$lang['geotag_prevent_microformat_render'] = 'Prévenir rendu de microformat geotag';

@@ -16,9 +16,9 @@
  */
 
 /**
- * Default settings for the geotag plugin
+ * Default settings for the geotag plugin.
  *
- * @license BSD
+ * @license BSD license
  * @author  Mark C. Prins <mc.prins@gmail.com>
  */
 $conf['geotag_pinggeourl'] = 0;

@@ -18,12 +18,12 @@
 /**
  * English language file for geotag plugin
  *
- * @license BSD
+ * @license BSD license
  * @author  Mark C. Prins <mc.prins@gmail.com>
  */
 
 $lang['geotag_pinggeourl'] = 'Ping GeoURL.org for indexing';
-$lang['geotag_location_prefix'] = 'Default text to show in front of tag';
-$lang['geotag_showlocation'] = 'Show location name inside tag, overriding above';
+$lang['geotag_location_prefix'] = 'Default text to show in front of geotag';
+$lang['geotag_showlocation'] = 'Show location name inside geotag, overriding above';
 $lang['geotag_hide'] = 'Hide geotag (css)';
 $lang['geotag_prevent_microformat_render'] = 'Prevent rendering of geotag microformat';

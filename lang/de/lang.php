@@ -16,7 +16,7 @@
  */
 
 /**
- * English language file for geotag plugin
+ * German language file for geotag plugin
  *
  * @license BSD license
  * @author  Mark C. Prins <mc.prins@gmail.com>
@@ -24,4 +24,4 @@
 
 // menu entry for admin plugins
 // $lang['menu'] = 'Your menu entry';
-$lang['geotag_desc'] = 'Geotag (location) for ';
+$lang['geotag_desc'] = 'Geotag (Ort) für ';

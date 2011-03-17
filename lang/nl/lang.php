@@ -18,11 +18,11 @@
 /**
  * Dutch language file for geotag plugin
  *
- * @license BSD
+ * @license BSD license
  * @author  Mark C. Prins <mc.prins@gmail.com>
  */
 
 // menu entry for admin plugins
 // $lang['menu'] = 'Your menu entry';
 
-$lang['geotag_desc'] = 'Geotag (lokatie) voor ';
+$lang['geotag_desc'] = 'Geotag (locatie) voor ';
