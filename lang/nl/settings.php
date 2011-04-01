@@ -27,3 +27,4 @@ $lang['geotag_location_prefix'] = 'Te tonen default tekst voorafgaand aan geotag
 $lang['geotag_showlocation'] = 'Toon locatie naam in de geotag, overschrijft bovenstaande';
 $lang['geotag_hide'] = 'Verberg geotags (css)';
 $lang['geotag_prevent_microformat_render'] = 'Voorkom geotag microformat rendering';
+$lang['toolbar_icon'] = 'Toon toolbar icon';

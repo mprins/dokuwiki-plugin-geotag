@@ -35,6 +35,9 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	public function register(Doku_Event_Handler &$controller) {
 		$controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'handle_metaheader_output');
 		$controller->register_hook('IO_WIKIPAGE_WRITE', 'BEFORE', $this, 'ping_geourl', array());
+		if($this->getConf('toolbar_icon')) {
+			$controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'insert_button', array ());
+		}
 	}
 
 	/**
@@ -96,5 +99,20 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		$result = $http->get($url);
 		dbglog($result,"GeoURL Ping response for $url");
 		return $result;
+	}
+
+	/**
+	 * Inserts the toolbar button.
+	 * @param Doku_Event $event the DokuWiki event
+	 */
+	function insert_button(Doku_Event &$event, $param) {
+		$event->data[] = array (
+	        'type' => 'format',
+	        'title' => $this->getLang('toolbar_desc'),
+	        'icon' => '../../plugins/geotag/images/geotag.png',
+	        'open' => '{{geotag>lat:',
+			'sample' => '52.2345',
+	    	'close' => ', lon: , placename: , country: , region: }}'
+	    	);
 	}
 }

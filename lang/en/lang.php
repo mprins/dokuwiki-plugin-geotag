@@ -25,3 +25,4 @@
 // menu entry for admin plugins
 // $lang['menu'] = 'Your menu entry';
 $lang['geotag_desc'] = 'Geotag (location) for ';
+$lang['toolbar_desc'] = 'Insert geotag';

@@ -26,3 +26,4 @@ $conf['geotag_location_prefix'] = 'GEO: ';
 $conf['geotag_showlocation'] = 0;
 $conf['geotag_hide'] = 0;
 $conf['geotag_prevent_microformat_render'] = 0;
+$conf['toolbar_icon'] = 1;

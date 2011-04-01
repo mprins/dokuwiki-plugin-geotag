@@ -26,3 +26,4 @@
 // $lang['menu'] = 'Your menu entry';
 
 $lang['geotag_desc'] = 'Geotag (locatie) voor ';
+$lang['toolbar_desc'] = 'Voeg geotag in';

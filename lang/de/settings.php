@@ -27,3 +27,4 @@ $lang['geotag_location_prefix'] = 'Default Text vor Geotag zu zeigen';
 $lang['geotag_showlocation'] = 'Lage anzeigen Namen innerhalb Geotag, zwingende oben';
 $lang['geotag_hide'] = 'Verstecken Geotag (css)';
 $lang['geotag_prevent_microformat_render'] = 'Verhindern Rendering Geotag Mikroformat';
+$lang['toolbar_icon'] = 'Toolbar-Symbol anzeigen';
