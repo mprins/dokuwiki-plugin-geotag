@@ -66,7 +66,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		if (!empty($country)) {$event->data['meta'][] = array('name' => 'geo.country','content' => $country,);}
 		if (!(empty($lat)&&empty($lon))) {
 			$event->data['meta'][] = array('name' => "ICBM",'content' => $lat.', '.$lon,);
-			// icbm is generally useless without a dc.title, so we copy that from title unless empty
+			// icbm is generally useless without a dc.title, so we copy that from title unless it's empty
 			if (!(empty($title))) {$event->data['meta'][] = array('name' => "DC.title",'content' => $title);}
 		}
 	}
@@ -89,10 +89,10 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		 * $data[3] – rev: The page revision, false for current wiki pages.
 		 */
 		if (!$this->getConf('geotag_pinggeourl')) return false; // config says don't ping
-		if ($event->data[3]) return false;                   // old revision saved
-		if (@file_exists($event->data[0][0])) return false;  // file not new
-		if (!$event->data[0][1]) return false;               // file is empty
-		if (p_get_metadata($ID,'geo',true)) return false; // no geo metadata available, ping is useless
+		if ($event->data[3]) return false;                      // old revision saved
+		if (@file_exists($event->data[0][0])) return false;     // file not new
+		if (!$event->data[0][1]) return false;                  // file is empty
+		if (p_get_metadata($ID,'geo',true)) return false;      // no geo metadata available, ping is useless
 
 		$url = 'http://geourl.org/ping/?p='.wl($ID,'',true);
 		$http = new DokuHTTPClient();
@@ -112,7 +112,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	        'icon' => '../../plugins/geotag/images/geotag.png',
 	        'open' => '{{geotag>lat:',
 			'sample' => '52.2345',
-	    	'close' => ', lon: , placename: , country: , region: }}'
+	    	'close' => ', lon: 7.521 , placename: , country: , region: }}'
 	    	);
 	}
 }

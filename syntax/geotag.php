@@ -88,10 +88,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		list ($lat, $lon, $region, $placename, $country, $showlocation, $style) = $data;
 		if ($mode == 'xhtml') {
 			if ($this->getConf('geotag_prevent_microformat_render')) {
-				// config says no microformat
+				// config says no microformat rendering
 				return true;
 			}
-			// render geotag microformat
 			// render geotag microformat
 			$renderer->doc .= '<div class="geo"'.$style.
 					' title="'.$this->getLang('geotag_desc').$placename.'">'.
