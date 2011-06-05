@@ -13,11 +13,14 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-/*Applied when a page is printed*/
+/* Applied when a page is printed */
 div.dokuwiki  div.geo {
 	border: 1px dotted __border__;
 	clear: both;
 	visibility: visible;
 	background: transparent url(images/geotag.png) 0px 1px no-repeat;
 	padding: 1px 0px 1px 16px;
+	font-family: monospace;
+	font-size: smaller;
+	text-align: left;
 }
