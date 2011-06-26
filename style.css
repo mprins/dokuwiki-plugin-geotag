@@ -15,9 +15,8 @@
  */
 div.dokuwiki div.geo {
 	border-top: 2px dotted __border__;
-	background: transparent url("images/geotag.png") no-repeat 0px 0px;
-	padding-bottom: 2px;
-	padding-left: 18px;
+	background: transparent url(images/geotag.png) 0px 1px no-repeat;
+	padding: 1px 0px 1px 16px;
 	font-size: smaller;
 	clear: both;
 	text-align: left;
