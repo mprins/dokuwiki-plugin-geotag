@@ -21,3 +21,7 @@ div.dokuwiki div.geo {
 	clear: both;
 	text-align: left;
 }
+
+div.dokuwiki span.geotagPrint {
+	display: none;
+}

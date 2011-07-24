@@ -92,7 +92,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 				return true;
 			}
 			// render geotag microformat
-			$renderer->doc .= '<div class="geo"'.$style.
+			$renderer->doc .= '<span class="geotagPrint">'.$this->getLang('geotag_desc').'</span><div class="geo"'.$style.
 					' title="'.$this->getLang('geotag_desc').$placename.'">'.
 					$showlocation.'<span class="latitude">'.
 					$lat.'</span>;<span class="longitude">'.

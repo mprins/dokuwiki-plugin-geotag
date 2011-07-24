@@ -15,12 +15,18 @@
  */
 /* Applied when a page is printed */
 div.dokuwiki  div.geo {
-	border: 1px dotted __border__;
+	border: none;
 	clear: both;
 	visibility: visible;
-	background: transparent url(images/geotag.png) 0px 1px no-repeat;
-	padding: 1px 0px 1px 16px;
-	font-family: monospace;
+	background: transparent url(images/geotag.png) center right no-repeat;
+	padding: 1px 16px 1px 0px;
 	font-size: smaller;
 	text-align: left;
+	display: inline;
+	white-space: nowrap;
+}
+
+div.dokuwiki span.geotagPrint {
+	font-size: smaller;
+	display: inline;
 }
