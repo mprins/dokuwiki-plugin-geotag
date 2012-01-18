@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011 Mark C. Prins <mc.prins@gmail.com>
+ * Copyright (c) 2011-2012 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,7 +19,7 @@
  * English language file for geotag plugin
  *
  * @license BSD license
- * @author  Mark C. Prins <mc.prins@gmail.com>
+ * @author  Mark C. Prins <mprins@users.sf.net>
  */
 
 $lang['geotag_pinggeourl'] = 'Ping GeoURL.org for indexing';

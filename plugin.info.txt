@@ -1,6 +1,6 @@
 base   geotag
 author Mark C. Prins
-email  mc.prins@gmail.com
+email  mprins@users.sf.net
 date   ${buildNumber} (${project.version})
 name   geotag plugin
 desc   Allow a user to annotate pages with a geotag
