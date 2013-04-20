@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2012 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2013 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -20,7 +20,7 @@ if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'action.php');
 
 /**
- * DokuWiki Plugin geotag (Action Component)
+ * DokuWiki Plugin geotag (Action Component).
  *
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
@@ -45,12 +45,10 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 * @param Doku_Event $event the DokuWiki event. $event->data is a two-dimensional
 	 * 	array of all meta headers. The keys are meta, link and script.
 	 * @param unknown_type $param
+	 * 
+	 * @see  http://www.dokuwiki.org/devel:event:tpl_metaheader_output
 	 */
 	public function handle_metaheader_output(Doku_Event &$event, $param) {
-		/*
-		 * see: http://www.dokuwiki.org/devel:event:tpl_metaheader_output
-		 * $data is a two-dimensional array of all meta headers. The keys are meta, link and script.
-		 */
 		global $ID;
 		$title = p_get_metadata($ID,'title',true);
 		$geotags = p_get_metadata($ID,'geo',true);
@@ -59,20 +57,35 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		$lon=$geotags['lon'];
 		$country=$geotags['country'];
 		$placename=$geotags['placename'];
+		$geohash=$geotags['geohash'];
 
-		if (!empty($region)) {$event->data['meta'][] = array('name' => 'geo.region','content' => $region,);}
-		if (!empty($placename)) {$event->data['meta'][] = array('name' => 'geo.placename','content' => $placename,);}
-		if (!(empty($lat)&&empty($lon))) {$event->data['meta'][] = array('name' => 'geo.position','content' => $lat.';'.$lon,);}
-		if (!empty($country)) {$event->data['meta'][] = array('name' => 'geo.country','content' => $country,);}
+		if (!empty($region)) {
+			$event->data['meta'][] = array('name' => 'geo.region','content' => $region,);
+		}
+		if (!empty($placename)) {
+			$event->data['meta'][] = array('name' => 'geo.placename','content' => $placename,);
+		}
+		if (!(empty($lat)&&empty($lon))) {
+			$event->data['meta'][] = array('name' => 'geo.position','content' => $lat.';'.$lon,);
+		}
+		if (!empty($country)) {
+			$event->data['meta'][] = array('name' => 'geo.country','content' => $country,);
+		}
 		if (!(empty($lat)&&empty($lon))) {
 			$event->data['meta'][] = array('name' => "ICBM",'content' => $lat.', '.$lon,);
 			// icbm is generally useless without a dc.title, so we copy that from title unless it's empty
-			if (!(empty($title))) {$event->data['meta'][] = array('name' => "DC.title",'content' => $title);}
+			if (!(empty($title))) {
+				$event->data['meta'][] = array('name' => "DC.title",'content' => $title);
+			}
+		}
+		if (!empty($geohash)) {
+			$event->data['meta'][] = array('name' => 'geo.geohash','content' => $geohash,);
 		}
 	}
 
 	/**
 	 * Ping the geourl webservice with the url of the for indexing, only if the page is new.
+	 * 
 	 * @param Doku_Event $event the DokuWiki event
 	 * @param mixed $param not used
 	 */
@@ -92,7 +105,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		if ($event->data[3]) return false;                      // old revision saved
 		if (@file_exists($event->data[0][0])) return false;     // file not new
 		if (!$event->data[0][1]) return false;                  // file is empty
-		if (p_get_metadata($ID,'geo',true)) return false;      // no geo metadata available, ping is useless
+		if (p_get_metadata($ID,'geo',true)) return false;       // no geo metadata available, ping is useless
 
 		$url = 'http://geourl.org/ping/?p='.wl($ID,'',true);
 		$http = new DokuHTTPClient();
@@ -103,16 +116,17 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 
 	/**
 	 * Inserts the toolbar button.
+	 *
 	 * @param Doku_Event $event the DokuWiki event
 	 */
 	function insert_button(Doku_Event &$event, $param) {
 		$event->data[] = array (
-	        'type' => 'format',
-	        'title' => $this->getLang('toolbar_desc'),
-	        'icon' => '../../plugins/geotag/images/geotag.png',
-	        'open' => '{{geotag>lat:',
-			'sample' => '52.2345',
-	    	'close' => ', lon: 7.521 , placename: , country: , region: }}'
-	    	);
+				'type' => 'format',
+				'title' => $this->getLang('toolbar_desc'),
+				'icon' => '../../plugins/geotag/images/geotag.png',
+				'open' => '{{geotag>lat:',
+				'sample' => '52.2345',
+				'close' => ', lon: 7.521, placename: , country: , region: }}'
+		);
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2012 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2013 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -28,6 +28,7 @@ if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
 /**
  * Handles the rendering part of the geotag plugin.
+ * 
  * @author Mark
  *
  */
@@ -72,20 +73,21 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		}
 
 		$data = array(
-		trim(substr($lat[0],4)),
-		trim(substr($lon[0],4)),
-		trim(substr($region[0],7)),
-		trim(substr($placename[0],10)),
-		trim(substr($country[0],8)),
-		$showlocation,
-		$style,
+			trim(substr($lat[0],4)),
+			trim(substr($lon[0],4)),
+			$this->_geohash(substr($lat[0],4), substr($lon[0],4)),
+			trim(substr($region[0],7)),
+			trim(substr($placename[0],10)),
+			trim(substr($country[0],8)),
+			$showlocation,
+			$style,
 		);
 		return $data;
 	}
 
 	public function render($mode, &$renderer, $data) {
 		if ($data === false) return false;
-		list ($lat, $lon, $region, $placename, $country, $showlocation, $style) = $data;
+		list ($lat, $lon, $geohash, $region, $placename, $country, $showlocation, $style) = $data;
 		if ($mode == 'xhtml') {
 			if ($this->getConf('geotag_prevent_microformat_render')) {
 				// config says no microformat rendering
@@ -105,11 +107,30 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 			$renderer->meta['geo']['placename'] = $placename;
 			$renderer->meta['geo']['region'] = $region;
 			$renderer->meta['geo']['country'] = $country;
+			$renderer->meta['geo']['geohash'] = $geohash;
 			return true;
 		} elseif ($mode=='odt'){
 			// TODO
 			return false;
 		}
 		return false;
+	}
+	
+	/**
+	 * Calculate the geohash for this lat/lon pair.
+	 * 
+	 * @param float $lat
+	 * @param float $lon
+	 */
+	private function _geohash($lat, $lon){
+		if (!$geophp = &plugin_load('helper', 'geophp')){
+			dbglog($geophp,'syntax_plugin_geotag_geotag::_geohash: geophp plugin is not available.');
+			return "";
+		}
+		$_lat = floatval($lat);
+		$_lon = floatval($lon);
+		$geometry = new Point($_lon,$_lat);
+		dbglog($geometry, 'geometry to calculate geohash from..');
+		return $geometry->out('geohash');
 	}
 }
