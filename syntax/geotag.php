@@ -94,8 +94,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 				return true;
 			}
 			// render geotag microformat
-			$renderer->doc .= '<span class="geotagPrint">'.$this->getLang('geotag_desc').'</span><div class="geo"'.$style.
-					' title="'.$this->getLang('geotag_desc').$placename.'">'.
+			$renderer->doc .= '<span class="geotagPrint">'.
+					$this->getLang('geotag_desc').'</span><div class="geo"'.
+					$style.' title="'.$this->getLang('geotag_desc').$placename.'">'.
 					$showlocation.'<span class="latitude">'.
 					$lat.'</span>;<span class="longitude">'.
 					$lon.'</span></div>'.DOKU_LF;
@@ -110,8 +111,14 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 			$renderer->meta['geo']['geohash'] = $geohash;
 			return true;
 		} elseif ($mode=='odt'){
-			// TODO
-			return false;
+			$renderer->p_open();
+			$renderer->_odtAddImage(DOKU_PLUGIN.'geotag/images/geotag.png',null, null, 'left','');
+			$renderer->doc .= '<text:span>'.$this->getLang('geotag_desc').' '.$placename.': </text:span>';
+			$renderer->monospace_open();
+			$renderer->doc .= $lat.';'.$lon;
+			$renderer->monospace_close();
+			$renderer->p_close();
+			return true;
 		}
 		return false;
 	}
