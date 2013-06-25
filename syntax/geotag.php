@@ -15,34 +15,50 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/**
- * DokuWiki Plugin geotag (Syntax Component)
- *
- * @license BSD license
- * @author  Mark C. Prins <mprins@users.sf.net>
- */
+
 if (!defined('DOKU_INC')) die();
-if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
+
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 
 require_once(DOKU_PLUGIN.'syntax.php');
 /**
+ * DokuWiki Plugin geotag (Syntax Component). 
  * Handles the rendering part of the geotag plugin.
- * 
- * @author Mark
  *
+ * @license BSD license
+ * @author  Mark C. Prins <mprins@users.sf.net>
  */
 class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
+	/**
+	 * (non-PHPdoc)
+	 * @see DokuWiki_Syntax_Plugin::getType()
+	 */
 	public function getType() { return 'substition'; }
 
+	/**
+	 * (non-PHPdoc)
+	 * @see DokuWiki_Syntax_Plugin::getPType()
+	 */
 	public function getPType() { return 'block'; }
 
+	/**
+	 * (non-PHPdoc)
+	 * @see Doku_Parser_Mode::getSort()
+	 */
 	public function getSort() { return 305; }
 
+	/**
+	 * (non-PHPdoc)
+	 * @see Doku_Parser_Mode::connectTo()
+	 */
 	public function connectTo($mode) {
 		$this->Lexer->addSpecialPattern('\{\{geotag>.*?\}\}',$mode,'plugin_geotag_geotag');
 	}
 
+	/**
+	 * (non-PHPdoc)
+	 * @see DokuWiki_Syntax_Plugin::handle()
+	 */
 	public function handle($match, $state, $pos, &$handler){
 		$tags = trim(substr($match, 9, -2));
 		// parse geotag content
@@ -85,6 +101,10 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		return $data;
 	}
 
+	/**
+	 * (non-PHPdoc)
+	 * @see DokuWiki_Syntax_Plugin::render()
+	 */
 	public function render($mode, &$renderer, $data) {
 		if ($data === false) return false;
 		list ($lat, $lon, $geohash, $region, $placename, $country, $showlocation, $style) = $data;
@@ -137,7 +157,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		$_lat = floatval($lat);
 		$_lon = floatval($lon);
 		$geometry = new Point($_lon,$_lat);
-		dbglog($geometry, 'geometry to calculate geohash from..');
+		//dbglog($geometry, 'geometry to calculate geohash from..');
 		return $geometry->out('geohash');
 	}
 }
