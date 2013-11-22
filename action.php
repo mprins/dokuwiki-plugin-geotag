@@ -78,14 +78,15 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 			);
 		}
 		if (! (empty ( $lat ) && empty ( $lon ))) {
-			$event->data ['meta'] [] = array (
-					'name' => 'geo.position',
-					'content' => $lat . ';' . $lon 
-			);
 			if (! empty ( $alt )) {
 				$event->data ['meta'] [] = array (
 						'name' => 'geo.position',
 						'content' => $lat . ';' . $lon . ';' . $alt 
+				);
+			} else {
+				$event->data ['meta'] [] = array (
+						'name' => 'geo.position',
+						'content' => $lat . ';' . $lon 
 				);
 			}
 		}
