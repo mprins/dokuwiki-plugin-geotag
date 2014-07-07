@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2013 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2014 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,14 +16,11 @@
  */
 
 /**
- * Dutch language file for geotag plugin
+ * Dutch language file for geotag plugin.
  *
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
  */
-
-// menu entry for admin plugins
-// $lang['menu'] = 'Your menu entry';
-
 $lang['geotag_desc'] = 'Geotag (locatie) voor ';
 $lang['toolbar_desc'] = 'Voeg geotag in';
+$lang['findnearby'] = 'Zoek in de buurt van';

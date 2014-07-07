@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2013 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2014 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -27,3 +27,5 @@ $conf['geotag_showlocation'] = 0;
 $conf['geotag_hide'] = 0;
 $conf['geotag_prevent_microformat_render'] = 0;
 $conf['toolbar_icon'] = 1;
+$conf['geotag_showsearch'] = 1;
+

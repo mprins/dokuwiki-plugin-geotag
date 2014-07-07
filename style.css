@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2014 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -13,15 +13,15 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-div.dokuwiki div.geo {
+.geo {
 	border-top: 2px dotted __border__;
 	background: transparent url(images/geotag.png) 0px 1px no-repeat;
-	padding: 1px 0px 1px 16px;
+	padding: 1px 0px 1px 18px;
 	font-size: smaller;
 	clear: both;
 	text-align: left;
 }
 
-div.dokuwiki span.geotagPrint {
+.geotagPrint {
 	display: none;
 }

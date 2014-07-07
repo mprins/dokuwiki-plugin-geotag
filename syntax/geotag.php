@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2013 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2014 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -31,44 +31,34 @@ require_once (DOKU_PLUGIN . 'syntax.php');
  */
 class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	/**
-	 * (non-PHPdoc)
-	 * 
 	 * @see DokuWiki_Syntax_Plugin::getType()
 	 */
 	public function getType() {
 		return 'substition';
 	}
-	
+
 	/**
-	 * (non-PHPdoc)
-	 * 
 	 * @see DokuWiki_Syntax_Plugin::getPType()
 	 */
 	public function getPType() {
 		return 'block';
 	}
-	
+
 	/**
-	 * (non-PHPdoc)
-	 * 
 	 * @see Doku_Parser_Mode::getSort()
 	 */
 	public function getSort() {
 		return 305;
 	}
-	
+
 	/**
-	 * (non-PHPdoc)
-	 * 
 	 * @see Doku_Parser_Mode::connectTo()
 	 */
 	public function connectTo($mode) {
 		$this->Lexer->addSpecialPattern ( '\{\{geotag>.*?\}\}', $mode, 'plugin_geotag_geotag' );
 	}
-	
+
 	/**
-	 * (non-PHPdoc)
-	 * 
 	 * @see DokuWiki_Syntax_Plugin::handle()
 	 */
 	public function handle($match, $state, $pos, Doku_Handler &$handler) {
@@ -81,7 +71,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		preg_match ( "(placename[:|=][a-zA-Z\s\w'-]*)", $tags, $placename );
 		preg_match ( "(country[:|=][a-zA-Z\s\w'-]*)", $tags, $country );
 		preg_match ( "(hide|unhide)", $tags, $hide );
-		
+
 		$showlocation = $this->getConf ( 'geotag_location_prefix' );
 		if ($this->getConf ( 'geotag_showlocation' )) {
 			$showlocation = trim ( substr ( $placename [0], 10 ) );
@@ -100,7 +90,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		} elseif (trim ( $hide [0] ) == 'unhide') {
 			$style = '';
 		}
-		
+
 		$data = array (
 				trim ( substr ( $lat [0], 4 ) ),
 				trim ( substr ( $lon [0], 4 ) ),
@@ -110,14 +100,12 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 				trim ( substr ( $placename [0], 10 ) ),
 				trim ( substr ( $country [0], 8 ) ),
 				$showlocation,
-				$style 
+				$style
 		);
 		return $data;
 	}
-	
+
 	/**
-	 * (non-PHPdoc)
-	 * 
 	 * @see DokuWiki_Syntax_Plugin::render()
 	 */
 	public function render($mode, Doku_Renderer &$renderer, $data) {
@@ -126,19 +114,35 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		list ( $lat, $lon, $alt, $geohash, $region, $placename, $country, $showlocation, $style ) = $data;
 		if ($mode == 'xhtml') {
 			if ($this->getConf ( 'geotag_prevent_microformat_render' )) {
-				// config says no microformat rendering
 				return true;
 			}
+			if ($this->getConf ( 'geotag_showsearch' )) {
+				$searchPre = '';
+				$searchPost = '';
+				if ($spHelper = &plugin_load ( 'helper', 'spatialhelper_search' )) {
+					$title = $this->getLang ( 'findnearby' ) . ' ' . $placename;
+					$url = wl ( getID (), array (
+							'do' => 'findnearby',
+							'lat' => $lat,
+							'lon' => $lon
+					) );
+					$searchPre = '<a href="' . $url . '" title="' . $title . '">';
+					$searchPost = '<span class="a11y">' . $title . '</span></a>';
+				}
+			}
+
 			if (! empty ( $alt ))
 				$alt = ', <span class="altitude">' . $alt . 'm</span>';
-				// render geotag microformat
+
+			// render geotag microformat
 			$renderer->doc .= '<span class="geotagPrint">' . $this->getLang ( 'geotag_desc' ) . '</span>';
-			$renderer->doc .= '<div class="geo"' . $style . ' title="' . 
-				$this->getLang ( 'geotag_desc' ) . $placename . '">' . $showlocation . 
-				'<span class="latitude">' . $lat . '</span>;<span class="longitude">' . $lon . '</span>' . $alt . '</div>' . DOKU_LF;
+			$renderer->doc .= '<div class="geo"' . $style . ' title="' . $this->getLang ( 'geotag_desc' ) . $placename . '">';
+			$renderer->doc .= $showlocation . $searchPre;
+			$renderer->doc .= '<span class="latitude">' . $lat . 'º</span>;<span class="longitude">' . $lon . 'º</span>';
+			$renderer->doc .=  $alt . $searchPost . '</div>' . DOKU_LF;
 			return true;
 		} elseif ($mode == 'metadata') {
-			// render metadata (action plugin will put it in the page head)
+			// render metadata (our action plugin will put it in the page head)
 			$renderer->meta ['geo'] ['lat'] = $lat;
 			$renderer->meta ['geo'] ['lon'] = $lon;
 			$renderer->meta ['geo'] ['placename'] = $placename;
@@ -161,12 +165,12 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Calculate the geohash for this lat/lon pair.
 	 *
-	 * @param float $lat        	
-	 * @param float $lon        	
+	 * @param float $lat
+	 * @param float $lon
 	 */
 	private function _geohash($lat, $lon) {
 		if (! $geophp = &plugin_load ( 'helper', 'geophp' )) {
@@ -176,7 +180,6 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		$_lat = floatval ( $lat );
 		$_lon = floatval ( $lon );
 		$geometry = new Point ( $_lon, $_lat );
-		// dbglog($geometry, 'geometry to calculate geohash from..');
 		return $geometry->out ( 'geohash' );
 	}
 }

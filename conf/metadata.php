@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2013 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2014 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,7 +16,7 @@
  */
 
 /**
- * Options for the geotag plugin
+ * Options for the geotag plugin.
  *
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
@@ -27,3 +27,4 @@ $meta['geotag_showlocation'] = array('onoff');
 $meta['geotag_hide'] = array('onoff');
 $meta['geotag_prevent_microformat_render'] = array('onoff');
 $meta['toolbar_icon'] = array('onoff');
+$meta['geotag_showsearch'] = array('onoff');

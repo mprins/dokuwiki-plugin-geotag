@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2013 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2014 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -16,7 +16,7 @@
  */
 
 /**
- * French language file for geotag plugin
+ * French language file for geotag plugin.
  *
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
@@ -28,3 +28,4 @@ $lang['geotag_showlocation'] = 'Nom Montrer emplacement à l\'intérieur Geotag,
 $lang['geotag_hide'] = 'Masquer geotag (css)';
 $lang['geotag_prevent_microformat_render'] = 'Prévenir rendu de microformat geotag';
 $lang['toolbar_icon'] = 'Voir icône de la barre';
+$lang['geotag_showsearch'] = 'Lier le geotag a rechercher aux alentours de (spatialhelper plugin nécessaire)';
