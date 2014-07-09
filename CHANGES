@@ -2,4 +2,5 @@
 
 === version ${project.version} ===
   * render schema.org microformats
-  * link geotag to findnearby if the spatilahelper plugin is available
+  * link geotag to findnearby if the spatialhelper plugin is available
+  * add an option to toggle display between DD and DMS format
