@@ -1,0 +1,5 @@
+==== Changes ====
+
+=== version ${project.version} ===
+  * render schema.org microformats
+  * link geotag to findnearby if the spatilahelper plugin is available

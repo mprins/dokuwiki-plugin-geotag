@@ -75,8 +75,8 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		$showlocation = $this->getConf ( 'geotag_location_prefix' );
 		if ($this->getConf ( 'geotag_showlocation' )) {
 			$showlocation = trim ( substr ( $placename [0], 10 ) );
-			if (strlen ( $showlocation ) > 0) {
-				$showlocation .= ': ';
+			if (strlen ( $showlocation ) < 1) {
+				$showlocation = $this->getConf ( 'geotag_location_prefix' );
 			}
 		}
 		// read config for system setting
@@ -131,15 +131,17 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 				}
 			}
 
-			if (! empty ( $alt ))
-				$alt = ', <span class="altitude">' . $alt . 'm</span>';
-
-			// render geotag microformat
+			// render geotag microformat/schema.org microdata
 			$renderer->doc .= '<span class="geotagPrint">' . $this->getLang ( 'geotag_desc' ) . '</span>';
-			$renderer->doc .= '<div class="geo"' . $style . ' title="' . $this->getLang ( 'geotag_desc' ) . $placename . '">';
-			$renderer->doc .= $showlocation . $searchPre;
-			$renderer->doc .= '<span class="latitude">' . $lat . 'º</span>;<span class="longitude">' . $lon . 'º</span>';
-			$renderer->doc .=  $alt . $searchPost . '</div>' . DOKU_LF;
+			$renderer->doc .= '<div class="geo"' . $style . ' title="' . $this->getLang ( 'geotag_desc' ) . $placename . '" itemscope itemtype="http://schema.org/Place">';
+			$renderer->doc .= '<span itemprop="name">' . hsc( $showlocation ) . '</span>:&nbsp;' . $searchPre;
+			$renderer->doc .= '<span itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">';
+			$renderer->doc .= '<span class="latitude" itemprop="latitude" content="' . $lat . '">' . $lat . 'º</span>;';
+			$renderer->doc .= '<span class="longitude" itemprop="longitude" content="' . $lon . '">' . $lon . 'º</span>';
+			if (! empty ( $alt )) {
+				$renderer->doc .= ', <span class="altitude" itemprop="elevation" content="' . $alt . '">' . $alt . 'm</span>';
+			}
+			$renderer->doc .= $searchPost . '</span></div>' . DOKU_LF;
 			return true;
 		} elseif ($mode == 'metadata') {
 			// render metadata (our action plugin will put it in the page head)
