@@ -103,12 +103,16 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 			);
 			// icbm is generally useless without a DC.title,
 			// so we copy that from title unless it's empty...
-			// also specify the DC namespace
 			if (! (empty ( $title ))) {
-				$event->data ['link'] [] = array (
-						'rel' => 'schema.DC',
-						'href' => 'http://purl.org/dc/elements/1.1/'
-				);
+				/* 
+				 * don't specify the DC namespace as this is incomplete; it should be done at the 
+				 * template level as it also needs a 'profile' attribute on the head/container, 
+				 * see: http://dublincore.org/documents/dc-html/#sect-3.1.1
+				 */
+				// $event->data ['link'] [] = array (
+				// 		'rel' => 'schema.DC',
+				// 		'href' => 'http://purl.org/dc/elements/1.1/'
+				// );
 				$event->data ['meta'] [] = array (
 						'name' => "DC.title",
 						'content' => $title
