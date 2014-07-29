@@ -149,7 +149,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 
 			// render geotag microformat/schema.org microdata
 			$renderer->doc .= '<span class="geotagPrint">' . $this->getLang ( 'geotag_desc' ) . '</span>';
-			$renderer->doc .= '<div class="h-geo"' . $style . ' title="' . $this->getLang ( 'geotag_desc' ) . $placename . '" itemscope itemtype="http://schema.org/Place">';
+			$renderer->doc .= '<div class="h-geo geo"' . $style . ' title="' . $this->getLang ( 'geotag_desc' ) . $placename . '" itemscope itemtype="http://schema.org/Place">';
 			$renderer->doc .= '<span itemprop="name">' . $showlocation . '</span>:&nbsp;' . $searchPre;
 			$renderer->doc .= '<span itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">';
 			$renderer->doc .= '<span class="p-latitude latitude" itemprop="latitude" content="' . $ddlat . '">' . $lat . '</span>;';
@@ -212,7 +212,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		$secs = ($decimaldegrees - $dms) * 3600;
 		$min = floor ( $secs / 60 );
 		$sec = round ( $secs - ($min * 60), 3 );
-		$dms .= 'º' . $min . '\'' . $sec . '\"';
+		$dms .= 'º' . $min . '\'' . $sec . '"';
 		return $dms;
 	}
 
