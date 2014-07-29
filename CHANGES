@@ -1,6 +1,9 @@
 ==== Changes ====
 
 === version ${project.version} ===
+  * use microformats2 h-geo classes
+
+=== version 1.7 ===
   * render schema.org microformats
   * link geotag to findnearby if the spatialhelper plugin is available
   * add an option to toggle display between DD and DMS format
