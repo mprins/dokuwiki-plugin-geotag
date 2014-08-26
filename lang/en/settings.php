@@ -29,3 +29,4 @@ $lang['geotag_hide'] = 'Hide geotag (css)';
 $lang['geotag_prevent_microformat_render'] = 'Prevent rendering of geotag microformat';
 $lang['toolbar_icon'] = 'Show toolbar icon';
 $lang['geotag_showsearch'] = 'Link geotag to search nearby (spatialhelper plugin required)';
+$lang['displayformat'] = 'Coordinates display format; decimal degrees or degrees, minutes, seconds';

@@ -204,6 +204,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	/**
 	 * Convert decimal degrees to degrees, minutes, seconds format
 	 *
+	 * @todo move this into a shared library
 	 * @param float $decimaldegrees
 	 * @return string dms
 	 */
@@ -219,6 +220,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	/**
 	 * convert latitude in decimal degrees to DMS+hemisphere.
 	 *
+	 * @todo move this into a shared library
 	 * @param float $decimaldegrees
 	 * @return string
 	 */
@@ -235,6 +237,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	/**
 	 * convert longitude in decimal degrees to DMS+hemisphere.
 	 *
+	 * @todo move this into a shared library
 	 * @param float $decimaldegrees
 	 * @return string
 	 */
