@@ -2,6 +2,8 @@
 
 === version ${project.version} ===
   * use microformats2 h-geo classes
+  * settings/translations update
+  * fix a bug of a non-closed span
 
 === version 1.7 ===
   * render schema.org microformats

@@ -152,12 +152,12 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 			$renderer->doc .= '<div class="h-geo geo"' . $style . ' title="' . $this->getLang ( 'geotag_desc' ) . $placename . '" itemscope itemtype="http://schema.org/Place">';
 			$renderer->doc .= '<span itemprop="name">' . $showlocation . '</span>:&nbsp;' . $searchPre;
 			$renderer->doc .= '<span itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">';
-			$renderer->doc .= '<span class="p-latitude latitude" itemprop="latitude" content="' . $ddlat . '">' . $lat . '</span>;';
-			$renderer->doc .= '<span class="p-longitude longitude" itemprop="longitude" content="' . $ddlon . '">' . $lon . '</span>';
+			$renderer->doc .= '<span class="p-latitude latitude" itemprop="latitude" data-latitude="' . $ddlat . '">' . $lat . '</span>;';
+			$renderer->doc .= '<span class="p-longitude longitude" itemprop="longitude" data-longitude="' . $ddlon . '">' . $lon . '</span>';
 			if (! empty ( $alt )) {
-				$renderer->doc .= ', <span class="p-altitude altitude" itemprop="elevation" content="' . $alt . '">' . $alt . 'm</span>';
+				$renderer->doc .= ', <span class="p-altitude altitude" itemprop="elevation" data-altitude="' . $alt . '">' . $alt . 'm</span>';
 			}
-			$renderer->doc .= $searchPost . '</span></div>' . DOKU_LF;
+			$renderer->doc .= '</span>' . $searchPost . '</div>' . DOKU_LF;
 			return true;
 		} elseif ($mode == 'metadata') {
 			// render metadata (our action plugin will put it in the page head)
