@@ -1,6 +1,7 @@
 ==== Changes ====
 
 === version ${project.version} ===
+  * allow unicode characters in placenames
 
 === version 1.8 ===
   * use microformats2 h-geo classes
