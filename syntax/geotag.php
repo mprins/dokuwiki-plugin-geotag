@@ -73,7 +73,8 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		preg_match ( "(lon[:|=]\d*\.\d*)", $tags, $lon );
 		preg_match ( "(alt[:|=]\d*\.?\d*)", $tags, $alt );
 		preg_match ( "(region[:|=][a-zA-Z\s\w'-]*)", $tags, $region );
-		preg_match ( "(placename[:|=][a-zA-Z\s\w'-]*)", $tags, $placename );
+		// preg_match ( "(placename[:|=][a-zA-Z\s\w'-]*)", $tags, $placename );
+		preg_match ( "(placename[:|=][\p{L}a-zA-Z\s\w'-]*)", $tags, $placename );
 		preg_match ( "(country[:|=][a-zA-Z\s\w'-]*)", $tags, $country );
 		preg_match ( "(hide|unhide)", $tags, $hide );
 
