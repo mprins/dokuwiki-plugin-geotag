@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2014 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2015 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -104,9 +104,9 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 			// icbm is generally useless without a DC.title,
 			// so we copy that from title unless it's empty...
 			if (! (empty ( $title ))) {
-				/* 
-				 * don't specify the DC namespace as this is incomplete; it should be done at the 
-				 * template level as it also needs a 'profile' attribute on the head/container, 
+				/*
+				 * don't specify the DC namespace as this is incomplete; it should be done at the
+				 * template level as it also needs a 'profile' attribute on the head/container,
 				 * see: http://dublincore.org/documents/dc-html/#sect-3.1.1
 				 */
 				// $event->data ['link'] [] = array (
