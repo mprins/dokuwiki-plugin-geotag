@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2014 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2015 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -74,7 +74,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 		preg_match ( "(alt[:|=]\d*\.?\d*)", $tags, $alt );
 		preg_match ( "(region[:|=][a-zA-Z\s\w'-]*)", $tags, $region );
 		// preg_match ( "(placename[:|=][a-zA-Z\s\w'-]*)", $tags, $placename );
-		preg_match ( "(placename[:|=][\p{L}a-zA-Z\s\w'-]*)", $tags, $placename );
+		preg_match ( "(placename[:|=][\p{L}a-zA-ZäöüÄÖÜß\s\w'-]*)", $tags, $placename );
 		preg_match ( "(country[:|=][a-zA-Z\s\w'-]*)", $tags, $country );
 		preg_match ( "(hide|unhide)", $tags, $hide );
 
