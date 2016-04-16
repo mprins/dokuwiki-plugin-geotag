@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2015 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2016 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -53,7 +53,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 *
 	 * @see http://www.dokuwiki.org/devel:event:tpl_metaheader_output
 	 */
-	public function handle_metaheader_output(Doku_Event &$event, $param) {
+	public function handle_metaheader_output(Doku_Event $event, $param) {
 		global $ID;
 		$title = p_get_metadata ( $ID, 'title', true );
 		$geotags = p_get_metadata ( $ID, 'geo', true );
@@ -135,7 +135,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 * @param mixed $param
 	 *        	not used
 	 */
-	function ping_geourl(Doku_Event &$event, $param) {
+	function ping_geourl(Doku_Event $event, $param) {
 		global $ID;
 		// see: http://www.dokuwiki.org/devel:event:io_wikipage_write event data:
 		// $data[0] – The raw arguments for io_saveFile as an array. Do not change file path.
@@ -168,7 +168,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 * @param Doku_Event $event
 	 *        	the DokuWiki event
 	 */
-	function insert_button(Doku_Event &$event, $param) {
+	function insert_button(Doku_Event $event, $param) {
 		$event->data [] = array (
 				'type' => 'format',
 				'title' => $this->getLang ( 'toolbar_desc' ),

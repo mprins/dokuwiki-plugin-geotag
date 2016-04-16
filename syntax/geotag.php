@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2015 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2016 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -66,7 +66,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	 *
 	 * @see DokuWiki_Syntax_Plugin::handle()
 	 */
-	public function handle($match, $state, $pos, Doku_Handler &$handler) {
+	public function handle($match, $state, $pos, Doku_Handler $handler) {
 		$tags = trim ( substr ( $match, 9, - 2 ) );
 		// parse geotag content
 		preg_match ( "(lat[:|=]\d*\.\d*)", $tags, $lat );
@@ -115,7 +115,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	 *
 	 * @see DokuWiki_Syntax_Plugin::render()
 	 */
-	public function render($mode, Doku_Renderer &$renderer, $data) {
+	public function render($mode, Doku_Renderer $renderer, $data) {
 		if ($data === false)
 			return false;
 		list ( $lat, $lon, $alt, $geohash, $region, $placename, $country, $showlocation, $style ) = $data;

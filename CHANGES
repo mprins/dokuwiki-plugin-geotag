@@ -1,6 +1,9 @@
 ==== Changes ====
 
 === version ${project.version} ===
+  * PHP 7 compatibility fixes
+
+=== version 1.9 ===
   * allow unicode characters in placenames
 
 === version 1.8 ===
