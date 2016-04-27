@@ -1,6 +1,9 @@
 ==== Changes ====
 
 === version ${project.version} ===
+  * Russian translation provided by Козлов Алексей (Aleksej Kozlov)
+
+=== version 1.10 ===
   * PHP 7 compatibility fixes
 
 === version 1.9 ===
