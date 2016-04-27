@@ -2,6 +2,7 @@
 
 === version ${project.version} ===
   * Russian translation provided by Козлов Алексей (Aleksej Kozlov)
+  * fix parsing of Cyrillic names (thanks Aleksej)
 
 === version 1.10 ===
   * PHP 7 compatibility fixes
