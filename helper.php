@@ -14,7 +14,9 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-if (!defined('DOKU_INC')) die();
+if (!defined('DOKU_INC')) {
+	die();
+}
 
 /**
  * DokuWiki Plugin geotag (Helper Component). This helper class provides

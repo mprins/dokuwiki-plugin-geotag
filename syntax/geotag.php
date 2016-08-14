@@ -14,11 +14,11 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-if (! defined ( 'DOKU_INC' ))
+if (!defined('DOKU_INC'))
 	die ();
 
-if (! defined ( 'DOKU_PLUGIN' ))
-	define ( 'DOKU_PLUGIN', DOKU_INC . 'lib/plugins/' );
+if (!defined('DOKU_PLUGIN'))
+	define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 
 require_once (DOKU_PLUGIN . 'syntax.php');
 /**
@@ -59,7 +59,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	 * @see Doku_Parser_Mode::connectTo()
 	 */
 	public function connectTo($mode) {
-		$this->Lexer->addSpecialPattern ( '\{\{geotag>.*?\}\}', $mode, 'plugin_geotag_geotag' );
+		$this->Lexer->addSpecialPattern('\{\{geotag>.*?\}\}', $mode, 'plugin_geotag_geotag');
 	}
 
 	/**
@@ -67,44 +67,44 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	 * @see DokuWiki_Syntax_Plugin::handle()
 	 */
 	public function handle($match, $state, $pos, Doku_Handler $handler) {
-		$tags = trim ( substr ( $match, 9, - 2 ) );
+		$tags = trim(substr($match, 9, - 2));
 		// parse geotag content
-		preg_match ( "(lat[:|=]\d*\.\d*)", $tags, $lat );
-		preg_match ( "(lon[:|=]\d*\.\d*)", $tags, $lon );
-		preg_match ( "(alt[:|=]\d*\.?\d*)", $tags, $alt );
-		preg_match ( "/(region[:|=][\p{L}\s\w'-]*)/u", $tags, $region );
-		preg_match ( "/(placename[:|=][\p{L}\s\w'-]*)/u", $tags, $placename );
-		preg_match ( "/(country[:|=][\p{L}\s\w'-]*)/u", $tags, $country );
-		preg_match ( "(hide|unhide)", $tags, $hide );
+		preg_match("(lat[:|=]\d*\.\d*)", $tags, $lat);
+		preg_match("(lon[:|=]\d*\.\d*)", $tags, $lon);
+		preg_match("(alt[:|=]\d*\.?\d*)", $tags, $alt);
+		preg_match("/(region[:|=][\p{L}\s\w'-]*)/u", $tags, $region);
+		preg_match("/(placename[:|=][\p{L}\s\w'-]*)/u", $tags, $placename);
+		preg_match("/(country[:|=][\p{L}\s\w'-]*)/u", $tags, $country);
+		preg_match("(hide|unhide)", $tags, $hide);
 
-		$showlocation = $this->getConf ( 'geotag_location_prefix' );
-		if ($this->getConf ( 'geotag_showlocation' )) {
-			$showlocation = trim ( substr ( $placename [0], 10 ) );
-			if (strlen ( $showlocation ) < 1) {
-				$showlocation = $this->getConf ( 'geotag_location_prefix' );
+		$showlocation = $this->getConf('geotag_location_prefix');
+		if ($this->getConf('geotag_showlocation')) {
+			$showlocation = trim(substr($placename [0], 10));
+			if (strlen($showlocation) < 1) {
+				$showlocation = $this->getConf('geotag_location_prefix');
 			}
 		}
 		// read config for system setting
 		$style = '';
-		if ($this->getConf ( 'geotag_hide' )) {
+		if ($this->getConf('geotag_hide')) {
 			$style = ' style="display: none;"';
 		}
 		// override config for the current tag
-		if (trim ( $hide [0] ) == 'hide') {
+		if (trim($hide [0]) == 'hide') {
 			$style = ' style="display: none;"';
-		} elseif (trim ( $hide [0] ) == 'unhide') {
+		} elseif (trim($hide [0]) == 'unhide') {
 			$style = '';
 		}
 
-		$data = array (
-				hsc ( trim ( substr ( $lat [0], 4 ) ) ),
-				hsc ( trim ( substr ( $lon [0], 4 ) ) ),
-				hsc ( trim ( substr ( $alt [0], 4 ) ) ),
-				$this->_geohash ( substr ( $lat [0], 4 ), substr ( $lon [0], 4 ) ),
-				hsc ( trim ( substr ( $region [0], 7 ) ) ),
-				hsc ( trim ( substr ( $placename [0], 10 ) ) ),
-				hsc ( trim ( substr ( $country [0], 8 ) ) ),
-				hsc ( $showlocation ),
+		$data = array(
+				hsc(trim(substr($lat [0], 4))),
+				hsc(trim(substr($lon [0], 4))),
+				hsc(trim(substr($alt [0], 4))),
+				$this->_geohash(substr($lat [0], 4), substr($lon [0], 4)),
+				hsc(trim(substr($region [0], 7))),
+				hsc(trim(substr($placename [0], 10))),
+				hsc(trim(substr($country [0], 8))),
+				hsc($showlocation),
 				$style
 		);
 		return $data;
@@ -117,44 +117,44 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	public function render($mode, Doku_Renderer $renderer, $data) {
 		if ($data === false)
 			return false;
-		list ( $lat, $lon, $alt, $geohash, $region, $placename, $country, $showlocation, $style ) = $data;
+		list ($lat, $lon, $alt, $geohash, $region, $placename, $country, $showlocation, $style) = $data;
 		$ddlat = $lat;
 		$ddlon = $lon;
-		if ($this->getConf ( 'displayformat' ) === 'DMS') {
-			$lat = $this->convertLat ( $lat );
-			$lon = $this->convertLon ( $lon );
+		if ($this->getConf('displayformat') === 'DMS') {
+			$lat = $this->convertLat($lat);
+			$lon = $this->convertLon($lon);
 		} else {
 			$lat .= 'º';
 			$lon .= 'º';
 		}
 
 		if ($mode == 'xhtml') {
-			if ($this->getConf ( 'geotag_prevent_microformat_render' )) {
+			if ($this->getConf('geotag_prevent_microformat_render')) {
 				return true;
 			}
-			if ($this->getConf ( 'geotag_showsearch' )) {
+			if ($this->getConf('geotag_showsearch')) {
 				$searchPre = '';
 				$searchPost = '';
-				if ($spHelper = &plugin_load ( 'helper', 'spatialhelper_search' )) {
-					$title = $this->getLang ( 'findnearby' ) . '&nbsp;' . $placename;
-					$url = wl ( getID (), array (
+				if ($spHelper = &plugin_load('helper', 'spatialhelper_search')) {
+					$title = $this->getLang('findnearby') . '&nbsp;' . $placename;
+					$url = wl(getID(), array(
 							'do' => 'findnearby',
 							'lat' => $ddlat,
 							'lon' => $ddlon
-					) );
+					));
 					$searchPre = '<a href="' . $url . '" title="' . $title . '">';
 					$searchPost = '<span class="a11y">' . $title . '</span></a>';
 				}
 			}
 
 			// render geotag microformat/schema.org microdata
-			$renderer->doc .= '<span class="geotagPrint">' . $this->getLang ( 'geotag_desc' ) . '</span>';
-			$renderer->doc .= '<div class="h-geo geo"' . $style . ' title="' . $this->getLang ( 'geotag_desc' ) . $placename . '" itemscope itemtype="http://schema.org/Place">';
+			$renderer->doc .= '<span class="geotagPrint">' . $this->getLang('geotag_desc') . '</span>';
+			$renderer->doc .= '<div class="h-geo geo"' . $style . ' title="' . $this->getLang('geotag_desc') . $placename . '" itemscope itemtype="http://schema.org/Place">';
 			$renderer->doc .= '<span itemprop="name">' . $showlocation . '</span>:&nbsp;' . $searchPre;
 			$renderer->doc .= '<span itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">';
 			$renderer->doc .= '<span class="p-latitude latitude" itemprop="latitude" data-latitude="' . $ddlat . '">' . $lat . '</span>;';
 			$renderer->doc .= '<span class="p-longitude longitude" itemprop="longitude" data-longitude="' . $ddlon . '">' . $lon . '</span>';
-			if (! empty ( $alt )) {
+			if (!empty ($alt)) {
 				$renderer->doc .= ', <span class="p-altitude altitude" itemprop="elevation" data-altitude="' . $alt . '">' . $alt . 'm</span>';
 			}
 			$renderer->doc .= '</span>' . $searchPost . '</div>' . DOKU_LF;
@@ -170,15 +170,15 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 			$renderer->meta ['geo'] ['alt'] = $alt;
 			return true;
 		} elseif ($mode == 'odt') {
-			if (! empty ( $alt ))
+			if (!empty ($alt))
 				$alt = ', ' . $alt . 'm';
-			$renderer->p_open ();
-			$renderer->_odtAddImage ( DOKU_PLUGIN . 'geotag/images/geotag.png', null, null, 'left', '' );
-			$renderer->doc .= '<text:span>' . $this->getLang ( 'geotag_desc' ) . ' ' . $placename . ': </text:span>';
-			$renderer->monospace_open ();
+			$renderer->p_open();
+			$renderer->_odtAddImage(DOKU_PLUGIN . 'geotag/images/geotag.png', null, null, 'left', '');
+			$renderer->doc .= '<text:span>' . $this->getLang('geotag_desc') . ' ' . $placename . ': </text:span>';
+			$renderer->monospace_open();
 			$renderer->doc .= $lat . ';' . $lon . $alt;
-			$renderer->monospace_close ();
-			$renderer->p_close ();
+			$renderer->monospace_close();
+			$renderer->p_close();
 			return true;
 		}
 		return false;
@@ -191,14 +191,14 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	 * @param float $lon
 	 */
 	private function _geohash($lat, $lon) {
-		if (! $geophp = &plugin_load ( 'helper', 'geophp' )) {
-			dbglog ( $geophp, 'syntax_plugin_geotag_geotag::_geohash: geophp plugin is not available.' );
+		if (!$geophp = &plugin_load('helper', 'geophp')) {
+			dbglog($geophp, 'syntax_plugin_geotag_geotag::_geohash: geophp plugin is not available.');
 			return "";
 		}
-		$_lat = floatval ( $lat );
-		$_lon = floatval ( $lon );
-		$geometry = new Point ( $_lon, $_lat );
-		return $geometry->out ( 'geohash' );
+		$_lat = floatval($lat);
+		$_lon = floatval($lon);
+		$geometry = new Point($_lon, $_lat);
+		return $geometry->out('geohash');
 	}
 
 	/**
@@ -209,10 +209,10 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	 * @return string dms
 	 */
 	private function _convertDDtoDMS($decimaldegrees) {
-		$dms = floor ( $decimaldegrees );
+		$dms = floor($decimaldegrees);
 		$secs = ($decimaldegrees - $dms) * 3600;
-		$min = floor ( $secs / 60 );
-		$sec = round ( $secs - ($min * 60), 3 );
+		$min = floor($secs / 60);
+		$sec = round($secs - ($min * 60), 3);
 		$dms .= 'º' . $min . '\'' . $sec . '"';
 		return $dms;
 	}
@@ -225,13 +225,13 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	 * @return string
 	 */
 	private function convertLat($decimaldegrees) {
-		if (strpos ( $decimaldegrees, '-' ) !== false) {
+		if (strpos($decimaldegrees, '-') !== false) {
 			$latPos = "S";
 		} else {
 			$latPos = "N";
 		}
-		$dms = $this->_convertDDtoDMS ( abs ( floatval ( $decimaldegrees ) ) );
-		return hsc ( $dms . $latPos );
+		$dms = $this->_convertDDtoDMS(abs(floatval($decimaldegrees)));
+		return hsc($dms . $latPos);
 	}
 
 	/**
@@ -242,12 +242,12 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	 * @return string
 	 */
 	private function convertLon($decimaldegrees) {
-		if (strpos ( $decimaldegrees, '-' ) !== false) {
+		if (strpos($decimaldegrees, '-') !== false) {
 			$lonPos = "W";
 		} else {
 			$lonPos = "E";
 		}
-		$dms = $this->_convertDDtoDMS ( abs ( floatval ( $decimaldegrees ) ) );
-		return hsc ( $dms . $lonPos );
+		$dms = $this->_convertDDtoDMS(abs(floatval($decimaldegrees)));
+		return hsc($dms . $lonPos);
 	}
 }

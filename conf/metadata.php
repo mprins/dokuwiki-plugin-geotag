@@ -29,4 +29,4 @@ $meta ['geotag_prevent_microformat_render'] = array ('onoff' );
 $meta ['toolbar_icon']        = array ('onoff' );
 $meta ['geotag_showsearch']   = array ('onoff' );
 $meta ['displayformat']       = array ('multichoice',
-                                    '_choices' => array ('DD','DMS') );
+									'_choices' => array ('DD','DMS') );
