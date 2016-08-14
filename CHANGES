@@ -1,6 +1,7 @@
 ==== Changes ====
+This is now an evergreen plugin, no more version tags will be created
 
-=== version ${project.version} ===
+=== version 1.10 ===
   * Russian translation provided by Козлов Алексей (Aleksej Kozlov)
   * fix parsing of Cyrillic names (thanks Aleksej)
 

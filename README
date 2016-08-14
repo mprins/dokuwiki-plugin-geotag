@@ -1,19 +1,19 @@
-${project.name}
+Geotag plugin for DokuWik
 
-${project.description}
+Provide a syntax and rendering of geotag information in your wiki page.
 
 All documentation for this plugin can be found at
-${project.url}
+http://www.dokuwiki.org/plugin:geotag
 
 If you install this plugin manually, make sure it is installed in
-lib/plugins/${project.artifactId}/ - if the folder is called different it
+lib/plugins/geotag/ - if the folder is called different it
 will not work!
 
 Please refer to http://www.dokuwiki.org/plugins for additional info
 on how to install plugins in DokuWiki.
 
 ----
-  Copyright (c) 2011-2015 Mark C. Prins <mprins@users.sf.net>
+  Copyright (c) 2011-2016 Mark C. Prins <mprins@users.sf.net>
 
   Permission to use, copy, modify, and distribute this software for any
   purpose with or without fee is hereby granted, provided that the above
