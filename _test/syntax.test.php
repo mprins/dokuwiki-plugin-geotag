@@ -23,55 +23,55 @@
  */
 class syntax_plugin_geotag_test extends DokuWikiTest {
 
-    protected $pluginsEnabled = array('geotag');
+	protected $pluginsEnabled = array('geotag');
 
-    /**
-     * copy data and add pages to the index.
-     */
-    public static function setUpBeforeClass() {
-        parent::setUpBeforeClass();
-        global $conf;
-        $conf['allowdebug'] = 1;
+	/**
+	 * copy data and add pages to the index.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+		global $conf;
+		$conf['allowdebug'] = 1;
 
-        TestUtils::rcopy(TMP_DIR, dirname(__FILE__).'/data/');
+		TestUtils::rcopy(TMP_DIR, dirname(__FILE__).'/data/');
 
-        dbglog("\nset up class syntax_plugin_geotag_test");
-    }
+		dbglog("\nset up class syntax_plugin_geotag_test");
+	}
 
-    function setUp() {
-        parent::setUp();
+	function setUp() {
+		parent::setUp();
 
-        global $conf;
-        $conf['allowdebug'] = 1;
-        $conf['cachetime'] = -1;
+		global $conf;
+		$conf['allowdebug'] = 1;
+		$conf['cachetime'] = -1;
 
-        $data = array();
-        search($data, $conf['datadir'], 'search_allpages', array('skipacl' => true));
+		$data = array();
+		search($data, $conf['datadir'], 'search_allpages', array('skipacl' => true));
 
-        //dbglog($data, "pages for indexing");
+		//dbglog($data, "pages for indexing");
 
-        $verbose = false;
-        $force = false;
-        foreach ($data as $val) {
-            idx_addPage($val['id'], $verbose, $force);
-        }
-        //idx_addPage('bob_ross_says', $verbose, $force);
-        //idx_addPage('link', $verbose, $force);
-        //idx_addPage('geotag_syntax', $verbose, $force);
-        if ($conf['allowdebug']) {
-            touch(DOKU_TMP_DATA.'cache/debug.log');
-        }
-    }
+		$verbose = false;
+		$force = false;
+		foreach ($data as $val) {
+			idx_addPage($val['id'], $verbose, $force);
+		}
+		//idx_addPage('bob_ross_says', $verbose, $force);
+		//idx_addPage('link', $verbose, $force);
+		//idx_addPage('geotag_syntax', $verbose, $force);
+		if ($conf['allowdebug']) {
+			touch(DOKU_TMP_DATA.'cache/debug.log');
+		}
+	}
 
-    public function tearDown() {
-        parent::tearDown();
+	public function tearDown() {
+		parent::tearDown();
 
-        global $conf;
-        // try to get the debug log after running the test, print and clear
-        if ($conf['allowdebug']) {
-            print "\n";
-            readfile(DOKU_TMP_DATA.'cache/debug.log');
-            unlink(DOKU_TMP_DATA.'cache/debug.log');
-        }
-    }
+		global $conf;
+		// try to get the debug log after running the test, print and clear
+		if ($conf['allowdebug']) {
+			print "\n";
+			readfile(DOKU_TMP_DATA.'cache/debug.log');
+			unlink(DOKU_TMP_DATA.'cache/debug.log');
+		}
+	}
 }

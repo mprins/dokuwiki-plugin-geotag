@@ -14,11 +14,11 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-if (! defined ( 'DOKU_INC' ))
+if (!defined('DOKU_INC'))
 	die ();
 
-if (! defined ( 'DOKU_PLUGIN' ))
-	define ( 'DOKU_PLUGIN', DOKU_INC . 'lib/plugins/' );
+if (!defined('DOKU_PLUGIN'))
+	define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 require_once (DOKU_PLUGIN . 'action.php');
 
 /**
@@ -36,10 +36,10 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 *        	DokuWiki's event controller object. Also available as global $EVENT_HANDLER
 	 */
 	public function register(Doku_Event_Handler $controller) {
-		$controller->register_hook ( 'TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'handle_metaheader_output' );
-		$controller->register_hook ( 'IO_WIKIPAGE_WRITE', 'BEFORE', $this, 'ping_geourl', array () );
-		if ($this->getConf ( 'toolbar_icon' )) {
-			$controller->register_hook ( 'TOOLBAR_DEFINE', 'AFTER', $this, 'insert_button', array () );
+		$controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'handle_metaheader_output');
+		$controller->register_hook('IO_WIKIPAGE_WRITE', 'BEFORE', $this, 'ping_geourl', array());
+		if ($this->getConf('toolbar_icon')) {
+			$controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'insert_button', array());
 		}
 	}
 
@@ -55,8 +55,8 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 */
 	public function handle_metaheader_output(Doku_Event $event, $param) {
 		global $ID;
-		$title = p_get_metadata ( $ID, 'title', true );
-		$geotags = p_get_metadata ( $ID, 'geo', true );
+		$title = p_get_metadata($ID, 'title', true);
+		$geotags = p_get_metadata($ID, 'geo', true);
 		$region = $geotags ['region'];
 		$lat = $geotags ['lat'];
 		$lon = $geotags ['lon'];
@@ -65,45 +65,45 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		$placename = $geotags ['placename'];
 		$geohash = $geotags ['geohash'];
 
-		if (! empty ( $region )) {
-			$event->data ['meta'] [] = array (
+		if (!empty ($region)) {
+			$event->data ['meta'] [] = array(
 					'name' => 'geo.region',
 					'content' => $region
 			);
 		}
-		if (! empty ( $placename )) {
-			$event->data ['meta'] [] = array (
+		if (!empty ($placename)) {
+			$event->data ['meta'] [] = array(
 					'name' => 'geo.placename',
 					'content' => $placename
 			);
 		}
-		if (! (empty ( $lat ) && empty ( $lon ))) {
-			if (! empty ( $alt )) {
-				$event->data ['meta'] [] = array (
+		if (!(empty ($lat) && empty ($lon))) {
+			if (!empty ($alt)) {
+				$event->data ['meta'] [] = array(
 						'name' => 'geo.position',
 						'content' => $lat . ';' . $lon . ';' . $alt
 				);
 			} else {
-				$event->data ['meta'] [] = array (
+				$event->data ['meta'] [] = array(
 						'name' => 'geo.position',
 						'content' => $lat . ';' . $lon
 				);
 			}
 		}
-		if (! empty ( $country )) {
-			$event->data ['meta'] [] = array (
+		if (!empty ($country)) {
+			$event->data ['meta'] [] = array(
 					'name' => 'geo.country',
 					'content' => $country
 			);
 		}
-		if (! (empty ( $lat ) && empty ( $lon ))) {
-			$event->data ['meta'] [] = array (
+		if (!(empty ($lat) && empty ($lon))) {
+			$event->data ['meta'] [] = array(
 					'name' => "ICBM",
 					'content' => $lat . ', ' . $lon
 			);
 			// icbm is generally useless without a DC.title,
 			// so we copy that from title unless it's empty...
-			if (! (empty ( $title ))) {
+			if (!(empty ($title))) {
 				/*
 				 * don't specify the DC namespace as this is incomplete; it should be done at the
 				 * template level as it also needs a 'profile' attribute on the head/container,
@@ -113,14 +113,14 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 				// 		'rel' => 'schema.DC',
 				// 		'href' => 'http://purl.org/dc/elements/1.1/'
 				// );
-				$event->data ['meta'] [] = array (
+				$event->data ['meta'] [] = array(
 						'name' => "DC.title",
 						'content' => $title
 				);
 			}
 		}
-		if (! empty ( $geohash )) {
-			$event->data ['meta'] [] = array (
+		if (!empty ($geohash)) {
+			$event->data ['meta'] [] = array(
 					'name' => 'geo.geohash',
 					'content' => $geohash
 			);
@@ -144,20 +144,20 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		// $data[1] – ns: The colon separated namespace path minus the trailing page name. (false if root ns)
 		// $data[2] – page_name: The wiki page name.
 		// $data[3] – rev: The page revision, false for current wiki pages.
-		if (! $this->getConf ( 'geotag_pinggeourl' ))
+		if (!$this->getConf('geotag_pinggeourl'))
 			return false; // config says don't ping
 		if ($event->data [3])
 			return false; // old revision saved
-		if (! $event->data [0] [1])
+		if (!$event->data [0] [1])
 			return false; // file is empty
-		if (@file_exists ( $event->data [0] [0] ))
+		if (@file_exists($event->data [0] [0]))
 			return false; // file not new
-		if (p_get_metadata ( $ID, 'geo', true ))
+		if (p_get_metadata($ID, 'geo', true))
 			return false; // no geo metadata available, ping is useless
 
-		$url = 'http://geourl.org/ping/?p=' . wl ( $ID, '', true );
-		$http = new DokuHTTPClient ();
-		$result = $http->get ( $url );
+		$url = 'http://geourl.org/ping/?p=' . wl($ID, '', true);
+		$http = new DokuHTTPClient();
+		$result = $http->get($url);
 		// dbglog ( $result, "GeoURL Ping response for $url" );
 		return $result;
 	}
@@ -169,9 +169,9 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 *        	the DokuWiki event
 	 */
 	function insert_button(Doku_Event $event, $param) {
-		$event->data [] = array (
+		$event->data [] = array(
 				'type' => 'format',
-				'title' => $this->getLang ( 'toolbar_desc' ),
+				'title' => $this->getLang('toolbar_desc'),
 				'icon' => '../../plugins/geotag/images/geotag.png',
 				'open' => '{{geotag>lat:',
 				'sample' => '52.2345',
