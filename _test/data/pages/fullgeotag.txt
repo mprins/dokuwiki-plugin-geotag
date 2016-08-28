@@ -1,0 +1,1 @@
+{{geotag>lat=52.132633, lon=5.291266, alt=9, placename:Sint-Oedenrode, region:NL-NB, country:NL, hide}}
