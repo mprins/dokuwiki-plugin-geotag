@@ -23,86 +23,86 @@
  */
 class syntax_plugin_geotag_test extends DokuWikiTest {
 
-    protected $pluginsEnabled = array('geotag');
+	protected $pluginsEnabled = array('geotag');
 
-    /**
-     * copy data and add pages to the index.
-     */
-    public static function setUpBeforeClass() {
-        parent::setUpBeforeClass();
-        global $conf;
-        $conf['allowdebug'] = 1;
+	/**
+	 * copy data and add pages to the index.
+	 */
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+		global $conf;
+		$conf['allowdebug'] = 1;
 
-        TestUtils::rcopy(TMP_DIR, dirname(__FILE__).'/data/');
+		TestUtils::rcopy(TMP_DIR, dirname(__FILE__).'/data/');
 
-        dbglog("\nset up class syntax_plugin_geotag_test");
-    }
+		dbglog("\nset up class syntax_plugin_geotag_test");
+	}
 
-    function setUp() {
-        parent::setUp();
+	function setUp() {
+		parent::setUp();
 
-        global $conf;
-        $conf['allowdebug'] = 1;
-        $conf['cachetime'] = -1;
+		global $conf;
+		$conf['allowdebug'] = 1;
+		$conf['cachetime'] = -1;
 
-        $data = array();
-        search($data, $conf['datadir'], 'search_allpages', array('skipacl' => true));
+		$data = array();
+		search($data, $conf['datadir'], 'search_allpages', array('skipacl' => true));
 
-        //dbglog($data, "pages for indexing");
+		//dbglog($data, "pages for indexing");
 
-        $verbose = false;
-        $force = false;
-        foreach ($data as $val) {
-            idx_addPage($val['id'], $verbose, $force);
-        }
-        if ($conf['allowdebug']) {
-            touch(DOKU_TMP_DATA.'cache/debug.log');
-        }
-    }
+		$verbose = false;
+		$force = false;
+		foreach ($data as $val) {
+			idx_addPage($val['id'], $verbose, $force);
+		}
+		if ($conf['allowdebug']) {
+			touch(DOKU_TMP_DATA.'cache/debug.log');
+		}
+	}
 
-    public function tearDown() {
-        parent::tearDown();
+	public function tearDown() {
+		parent::tearDown();
 
-        global $conf;
-        // try to get the debug log after running the test, print and clear
-        if ($conf['allowdebug']) {
-            print "\n";
-            readfile(DOKU_TMP_DATA.'cache/debug.log');
-            unlink(DOKU_TMP_DATA.'cache/debug.log');
-        }
-    }
+		global $conf;
+		// try to get the debug log after running the test, print and clear
+		if ($conf['allowdebug']) {
+			print "\n";
+			readfile(DOKU_TMP_DATA.'cache/debug.log');
+			unlink(DOKU_TMP_DATA.'cache/debug.log');
+		}
+	}
 
-    public function test_geotag(){
-        $request = new TestRequest();
-        $response = $request->get(array('id'=>'minimalgeotag'), '/doku.php');
+	public function test_geotag(){
+		$request = new TestRequest();
+		$response = $request->get(array('id'=>'minimalgeotag'), '/doku.php');
 
-        $this->assertEquals('minimalgeotag',
-                        $response->queryHTML('meta[name="keywords"]')->attr('content'));
-        $this->assertEquals('51.565696;5.324596',
-                        $response->queryHTML('meta[name="geo.position"]')->attr('content'));
-        $this->assertEquals('51.565696, 5.324596',
-                        $response->queryHTML('meta[name="ICBM"]')->attr('content'));
+		$this->assertEquals('minimalgeotag',
+						$response->queryHTML('meta[name="keywords"]')->attr('content'));
+		$this->assertEquals('51.565696;5.324596',
+						$response->queryHTML('meta[name="geo.position"]')->attr('content'));
+		$this->assertEquals('51.565696, 5.324596',
+						$response->queryHTML('meta[name="ICBM"]')->attr('content'));
 
-        $this->assertTrue(
-            strpos($response->getContent(), 'Geotag (location) for:') !== false,
-            '"Geotag (location) for:" was not in the output'
-        );
-    }
+		$this->assertTrue(
+			strpos($response->getContent(), 'Geotag (location) for:') !== false,
+			'"Geotag (location) for:" was not in the output'
+		);
+	}
 
-    public function test_fullgeotag(){
-        $request = new TestRequest();
-        $response = $request->get(array('id'=>'fullgeotag'), '/doku.php');
+	public function test_fullgeotag(){
+		$request = new TestRequest();
+		$response = $request->get(array('id'=>'fullgeotag'), '/doku.php');
 
-        $this->assertEquals('fullgeotag',
-                        $response->queryHTML('meta[name="keywords"]')->attr('content'));
-        $this->assertEquals('52.132633;5.291266;9',
-                        $response->queryHTML('meta[name="geo.position"]')->attr('content'));
-        $this->assertEquals('52.132633, 5.291266',
-                        $response->queryHTML('meta[name="ICBM"]')->attr('content'));
+		$this->assertEquals('fullgeotag',
+						$response->queryHTML('meta[name="keywords"]')->attr('content'));
+		$this->assertEquals('52.132633;5.291266;9',
+						$response->queryHTML('meta[name="geo.position"]')->attr('content'));
+		$this->assertEquals('52.132633, 5.291266',
+						$response->queryHTML('meta[name="ICBM"]')->attr('content'));
 
-        $this->assertTrue(
-            strpos($response->getContent(), 'Geotag (location) for:') !== false,
-            '"Geotag (location) for:" was not in the output'
-        );
-    }
+		$this->assertTrue(
+			strpos($response->getContent(), 'Geotag (location) for:') !== false,
+			'"Geotag (location) for:" was not in the output'
+		);
+	}
 }
