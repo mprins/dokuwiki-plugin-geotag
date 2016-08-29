@@ -14,11 +14,13 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-if (!defined('DOKU_INC'))
+if (!defined('DOKU_INC')) {
 	die ();
+}
 
-if (!defined('DOKU_PLUGIN'))
+if (!defined('DOKU_PLUGIN')) {
 	define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
+}
 
 require_once (DOKU_PLUGIN . 'syntax.php');
 /**
@@ -132,9 +134,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 			if ($this->getConf('geotag_prevent_microformat_render')) {
 				return true;
 			}
+			$searchPre = '';
+			$searchPost = '';
 			if ($this->getConf('geotag_showsearch')) {
-				$searchPre = '';
-				$searchPost = '';
 				if ($spHelper = &plugin_load('helper', 'spatialhelper_search')) {
 					$title = $this->getLang('findnearby') . '&nbsp;' . $placename;
 					$url = wl(getID(), array(
@@ -170,8 +172,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 			$renderer->meta ['geo'] ['alt'] = $alt;
 			return true;
 		} elseif ($mode == 'odt') {
-			if (!empty ($alt))
+			if (!empty ($alt)) {
 				$alt = ', ' . $alt . 'm';
+			}
 			$renderer->p_open();
 			$renderer->_odtAddImage(DOKU_PLUGIN . 'geotag/images/geotag.png', null, null, 'left', '');
 			$renderer->doc .= '<text:span>' . $this->getLang('geotag_desc') . ' ' . $placename . ': </text:span>';
