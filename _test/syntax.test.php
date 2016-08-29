@@ -48,8 +48,6 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
 		$data = array();
 		search($data, $conf['datadir'], 'search_allpages', array('skipacl' => true));
 
-		//dbglog($data, "pages for indexing");
-
 		$verbose = false;
 		$force = false;
 		foreach ($data as $val) {

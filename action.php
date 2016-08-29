@@ -14,11 +14,13 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-if (!defined('DOKU_INC'))
+if (!defined('DOKU_INC')) {
 	die ();
+}
 
-if (!defined('DOKU_PLUGIN'))
+if (!defined('DOKU_PLUGIN')) {
 	define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
+}
 require_once (DOKU_PLUGIN . 'action.php');
 
 /**
@@ -108,11 +110,9 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 				 * don't specify the DC namespace as this is incomplete; it should be done at the
 				 * template level as it also needs a 'profile' attribute on the head/container,
 				 * see: http://dublincore.org/documents/dc-html/#sect-3.1.1
+				 * $event->data ['link'] [] = array ('rel' => 'schema.DC',
+				 * 'href' => 'http://purl.org/dc/elements/1.1/');
 				 */
-				// $event->data ['link'] [] = array (
-				// 		'rel' => 'schema.DC',
-				// 		'href' => 'http://purl.org/dc/elements/1.1/'
-				// );
 				$event->data ['meta'] [] = array(
 						'name' => "DC.title",
 						'content' => $title
@@ -135,30 +135,34 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 * @param mixed $param
 	 *        	not used
 	 */
-	function ping_geourl(Doku_Event $event, $param) {
+	public function ping_geourl(Doku_Event $event, $param) {
 		global $ID;
 		// see: http://www.dokuwiki.org/devel:event:io_wikipage_write event data:
-		// $data[0] – The raw arguments for io_saveFile as an array. Do not change file path.
-		// $data[0][0] – the file path.
-		// $data[0][1] – the content to be saved, and may be modified.
-		// $data[1] – ns: The colon separated namespace path minus the trailing page name. (false if root ns)
-		// $data[2] – page_name: The wiki page name.
-		// $data[3] – rev: The page revision, false for current wiki pages.
-		if (!$this->getConf('geotag_pinggeourl'))
-			return false; // config says don't ping
-		if ($event->data [3])
-			return false; // old revision saved
-		if (!$event->data [0] [1])
-			return false; // file is empty
-		if (@file_exists($event->data [0] [0]))
-			return false; // file not new
-		if (p_get_metadata($ID, 'geo', true))
-			return false; // no geo metadata available, ping is useless
+		if (!$this->getConf('geotag_pinggeourl')) {
+			// config says don't ping
+			return false; 
+		}
+		if ($event->data [3]) {
+			// old revision saved
+			return false; 
+		}
+		if (!$event->data [0] [1]) {
+			// file/block is empty
+			return false; 
+		}
+		if (@file_exists($event->data [0] [0])) {
+			// file not new
+			return false; 
+		}
+		if (p_get_metadata($ID, 'geo', true)) {
+			// no geo metadata available, ping is useless
+			return false; 
+		}
 
 		$url = 'http://geourl.org/ping/?p=' . wl($ID, '', true);
 		$http = new DokuHTTPClient();
 		$result = $http->get($url);
-		// dbglog ( $result, "GeoURL Ping response for $url" );
+		dbglog ($result, "GeoURL Ping response for $url");
 		return $result;
 	}
 
@@ -168,7 +172,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 	 * @param Doku_Event $event
 	 *        	the DokuWiki event
 	 */
-	function insert_button(Doku_Event $event, $param) {
+	public function insert_button(Doku_Event $event, $param) {
 		$event->data [] = array(
 				'type' => 'format',
 				'title' => $this->getLang('toolbar_desc'),

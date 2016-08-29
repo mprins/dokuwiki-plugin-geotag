@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2015 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2016 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -29,5 +29,5 @@ if (!defined('DOKU_INC')) {
  */
 class helper_plugin_geotag extends DokuWiki_Plugin {
 	/** Constructor. */
-	function helper_plugin_geotag() {}
+	public function helper_plugin_geotag() {}
 }
