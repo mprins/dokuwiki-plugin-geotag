@@ -33,7 +33,7 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
 		global $conf;
 		$conf['allowdebug'] = 1;
 
-		TestUtils::rcopy(TMP_DIR, dirname(__FILE__).'/data/');
+		TestUtils::rcopy(TMP_DIR, dirname(__FILE__) . '/data/');
 
 		dbglog("\nset up class syntax_plugin_geotag_test");
 	}
@@ -54,7 +54,7 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
 			idx_addPage($val['id'], $verbose, $force);
 		}
 		if ($conf['allowdebug']) {
-			touch(DOKU_TMP_DATA.'cache/debug.log');
+			touch(DOKU_TMP_DATA . 'cache/debug.log');
 		}
 	}
 
@@ -65,12 +65,12 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
 		// try to get the debug log after running the test, print and clear
 		if ($conf['allowdebug']) {
 			print "\n";
-			readfile(DOKU_TMP_DATA.'cache/debug.log');
-			unlink(DOKU_TMP_DATA.'cache/debug.log');
+			readfile(DOKU_TMP_DATA . 'cache/debug.log');
+			unlink(DOKU_TMP_DATA . 'cache/debug.log');
 		}
 	}
 
-	public function test_geotag(){
+	public function test_geotag() {
 		$request = new TestRequest();
 		$response = $request->get(array('id'=>'minimalgeotag'), '/doku.php');
 
@@ -87,7 +87,7 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
 		);
 	}
 
-	public function test_fullgeotag(){
+	public function test_fullgeotag() {
 		$request = new TestRequest();
 		$response = $request->get(array('id'=>'fullgeotag'), '/doku.php');
 
