@@ -117,8 +117,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	 * @see DokuWiki_Syntax_Plugin::render()
 	 */
 	public function render($mode, Doku_Renderer $renderer, $data) {
-		if ($data === false)
-			return false;
+		if ($data === false) {
+					return false;
+		}
 		list ($lat, $lon, $alt, $geohash, $region, $placename, $country, $showlocation, $style) = $data;
 		$ddlat = $lat;
 		$ddlon = $lon;
