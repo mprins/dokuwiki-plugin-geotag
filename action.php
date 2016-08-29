@@ -162,7 +162,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
 		$url = 'http://geourl.org/ping/?p=' . wl($ID, '', true);
 		$http = new DokuHTTPClient();
 		$result = $http->get($url);
-		dbglog ($result, "GeoURL Ping response for $url");
+		dbglog($result, "GeoURL Ping response for $url");
 		return $result;
 	}
 
