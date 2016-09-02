@@ -178,9 +178,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 			}
 			$renderer->p_open();
 			$renderer->_odtAddImage(DOKU_PLUGIN . 'geotag/images/geotag.png', null, null, 'left', '');
-            $renderer->cdata($this->getLang('geotag_desc') . ' ' . $placename);
+			$renderer->cdata($this->getLang('geotag_desc') . ' ' . $placename);
 			$renderer->monospace_open();
-            $renderer->cdata($lat . ';' . $lon . $alt);
+			$renderer->cdata($lat . ';' . $lon . $alt);
 			$renderer->monospace_close();
 			$renderer->p_close();
 			return true;
