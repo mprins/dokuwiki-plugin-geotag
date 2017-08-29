@@ -1,0 +1,56 @@
+build: false
+clone_folder: c:\dokuwiki\lib\plugins\dokuwiki-plugin-geotag
+max_jobs: 2
+platform:
+  - x86
+  - x64
+shallow_clone: true
+pull_requests:
+  do_not_increment_build_number: true
+version: '{build}.{branch}'
+
+environment:
+  matrix:
+    - PHP_VERSION: '7.2.4'
+      VC: 'VC15'
+      PHPUNIT: '7'
+    - PHP_VERSION: '7.0.29'
+      VC: 'VC14'
+      PHPUNIT: '6'
+
+cache:
+  #- c:\php -> appveyor.yml
+  - phpunit.phar -> appveyor.yml
+
+init:
+  - SET PATH=c:\php\%PHP_VERSION%;%PATH%
+  
+install:
+  - echo %PHP_VERSION%
+  - IF NOT EXIST c:\php mkdir c:\php
+  - IF NOT EXIST c:\php\%PHP_VERSION% mkdir c:\php\%PHP_VERSION%
+  - cd c:\php\%PHP_VERSION%
+  - IF NOT EXIST php-installed.txt curl -fsSL -o php-%PHP_VERSION%-Win32-%VC%-x86.zip https://windows.php.net/downloads/releases/archives/php-%PHP_VERSION%-Win32-%VC%-x86.zip
+  - IF NOT EXIST php-installed.txt 7z x php-%PHP_VERSION%-Win32-%VC%-x86.zip -y >nul
+  - IF NOT EXIST php-installed.txt del /Q *.zip
+  - IF NOT EXIST php-installed.txt copy /Y php.ini-development php.ini
+  - IF NOT EXIST php-installed.txt echo max_execution_time=1200 >> php.ini
+  - IF NOT EXIST php-installed.txt echo date.timezone="UTC" >> php.ini
+  - IF NOT EXIST php-installed.txt echo extension_dir=ext >> php.ini
+  - IF NOT EXIST php-installed.txt echo extension=php_openssl.dll >> php.ini
+  - IF NOT EXIST php-installed.txt echo extension=php_mbstring.dll >> php.ini
+  - IF NOT EXIST php-installed.txt echo extension=php_gd2.dll >> php.ini
+  - IF NOT EXIST php-installed.txt echo extension=php_bz2.dll >> php.ini
+  - IF NOT EXIST php-installed.txt echo extension=php_pdo_sqlite.dll >> php.ini
+  - IF NOT EXIST php-installed.txt curl -fsSL -o phpunit.phar https://phar.phpunit.de/phpunit-%PHPUNIT%.phar
+  - IF NOT EXIST php-installed.txt type nul >> php-installed.txt
+  - cd c:\dokuwiki
+  - git init
+  - git pull https://github.com/splitbrain/dokuwiki.git
+
+test_script:
+  - php -v
+  - php c:\php\%PHP_VERSION%\phpunit.phar --version
+  - dir c:\dokuwiki\lib\plugins\dokuwiki-plugin-geotag\_test
+  - cd c:\dokuwiki\_test
+  - php c:\php\%PHP_VERSION%\phpunit.phar --stderr --verbose --debug --group plugin_geotag
