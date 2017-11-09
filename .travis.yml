@@ -15,6 +15,9 @@ matrix:
       env: DOKUWIKI=stable
     - php: "7.1"
       env: DOKUWIKI=stable
+    - php: "7.0"
+      env: DOKUWIKI=stable
+      # because of incompatible phpunit version
 
 env:
   - DOKUWIKI=master
