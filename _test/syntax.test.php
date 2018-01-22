@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2016 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2016-2018 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -96,6 +96,23 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
 		$this->assertEquals('52.132633;5.291266;9',
 						$response->queryHTML('meta[name="geo.position"]')->attr('content'));
 		$this->assertEquals('52.132633, 5.291266',
+						$response->queryHTML('meta[name="ICBM"]')->attr('content'));
+
+		$this->assertTrue(
+			strpos($response->getContent(), 'Geotag (location) for:') !== false,
+			'"Geotag (location) for:" was not in the output'
+		);
+	}
+
+	public function test_fullgeotagnegativecoords() {
+		$request = new TestRequest();
+		$response = $request->get(array('id'=>'fullgeotagnegativecoords'), '/doku.php');
+
+		$this->assertEquals('fullgeotagnegativecoords',
+						$response->queryHTML('meta[name="keywords"]')->attr('content'));
+		$this->assertEquals('-52.132633;-5.291266;-9',
+						$response->queryHTML('meta[name="geo.position"]')->attr('content'));
+		$this->assertEquals('-52.132633, -5.291266',
 						$response->queryHTML('meta[name="ICBM"]')->attr('content'));
 
 		$this->assertTrue(
