@@ -1,7 +1,7 @@
 base   geotag
 author Mark C. Prins
 email  mprins@users.sf.net
-date   2016-09-02
+date   2018-01-22
 name   geotag plugin
 desc   Allow a user to annotate pages with a geotag
 url    http://www.dokuwiki.org/plugin:geotag
