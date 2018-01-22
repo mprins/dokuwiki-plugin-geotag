@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2016 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2018 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -71,9 +71,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	public function handle($match, $state, $pos, Doku_Handler $handler) {
 		$tags = trim(substr($match, 9, - 2));
 		// parse geotag content
-		preg_match("(lat[:|=]\d*\.\d*)", $tags, $lat);
-		preg_match("(lon[:|=]\d*\.\d*)", $tags, $lon);
-		preg_match("(alt[:|=]\d*\.?\d*)", $tags, $alt);
+		preg_match("(lat[:|=]-?\d*\.\d*)", $tags, $lat);
+		preg_match("(lon[:|=]-?\d*\.\d*)", $tags, $lon);
+		preg_match("(alt[:|=]-?\d*\.?\d*)", $tags, $alt);
 		preg_match("/(region[:|=][\p{L}\s\w'-]*)/u", $tags, $region);
 		preg_match("/(placename[:|=][\p{L}\s\w'-]*)/u", $tags, $placename);
 		preg_match("/(country[:|=][\p{L}\s\w'-]*)/u", $tags, $country);
@@ -195,7 +195,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
 	 * @param float $lon
 	 */
 	private function _geohash($lat, $lon) {
-		if (!$geophp = &plugin_load('helper', 'geophp')) {
+		if (!$geophp = plugin_load('helper', 'geophp')) {
 			dbglog($geophp, 'syntax_plugin_geotag_geotag::_geohash: geophp plugin is not available.');
 			return "";
 		}
