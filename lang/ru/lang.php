@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2016 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2018 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,8 +19,8 @@
  * Russian language file for geotag plugin.
  *
  * @license BSD license
- * @author  Aleksej Kozlov <kozlov@ritmsoft.ru>
+ * @author  Aleksej Kozlov <nellesmeti@gmail.com>
  */
-$lang['geotag_desc'] = 'Геотег (местоположение):';
+$lang['geotag_desc'] = 'Геотег:';
 $lang['toolbar_desc'] = 'Вставить геотег';
-$lang['findnearby'] = 'Искать поблизости';
+$lang['findnearby'] = 'Искать около точки:';
