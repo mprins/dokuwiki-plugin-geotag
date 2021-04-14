@@ -84,20 +84,20 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
             $style = ' style="display: none;"';
         }
         // override config for the current tag
-        if (is_array($hide) && trim($hide [0]) == 'hide') {
+        if (array_key_exists(0, $hide) && trim($hide [0]) == 'hide') {
             $style = ' style="display: none;"';
-        } elseif (is_array($hide) && trim($hide [0]) == 'unhide') {
+        } elseif (array_key_exists(0, $hide) && trim($hide [0]) == 'unhide') {
             $style = '';
         }
 
         $data = array(
                 hsc(trim(substr($lat [0], 4))),
                 hsc(trim(substr($lon [0], 4))),
-                hsc(trim(substr($alt [0], 4))),
+                hsc(trim(substr(($alt[0] ?? ''), 4))),
                 $this->geohash(substr($lat [0], 4), substr($lon [0], 4)),
-                hsc(trim(substr($region [0], 7))),
-                hsc(trim(substr($placename [0], 10))),
-                hsc(trim(substr($country [0], 8))),
+                hsc(trim(substr(($region[0] ?? ''), 7))),
+                hsc(trim(substr(($placename[0] ?? ''), 10))),
+                hsc(trim(substr(($country [0] ?? ''), 8))),
                 hsc($showlocation),
                 $style
         );
