@@ -21,8 +21,6 @@
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
  */
-
-$lang['geotag_pinggeourl'] = 'Ping GeoURL.org für die Indizierung';
 $lang['geotag_location_prefix'] = 'Default Text vor Geotag zu zeigen';
 $lang['geotag_showlocation'] = 'Lage anzeigen Namen innerhalb Geotag, zwingende oben';
 $lang['geotag_hide'] = 'Verstecken Geotag (css)';

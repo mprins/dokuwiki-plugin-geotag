@@ -31,7 +31,6 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
      */
     public function register(Doku_Event_Handler $controller) {
         $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'handleMetaheaderOutput');
-        $controller->register_hook('IO_WIKIPAGE_WRITE', 'BEFORE', $this, 'ping_geourl', array());
         if ($this->getConf('toolbar_icon')) {
             $controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'insertButton', array());
         }
@@ -117,45 +116,6 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
                     'content' => $geohash
             );
         }
-    }
-
-    /**
-     * Ping the geourl webservice with the url of the for indexing, only if the page is new.
-     *
-     * @param Doku_Event $event
-     *          the DokuWiki event
-     * @param mixed $param
-     *          not used
-     */
-    public function ping_geourl(Doku_Event $event, $param) {
-        global $ID;
-        // see: http://www.dokuwiki.org/devel:event:io_wikipage_write event data:
-        if (!$this->getConf('geotag_pinggeourl')) {
-            // config says don't ping
-            return false; 
-        }
-        if ($event->data [3]) {
-            // old revision saved
-            return false; 
-        }
-        if (!$event->data [0] [1]) {
-            // file/block is empty
-            return false; 
-        }
-        if (@file_exists($event->data [0] [0])) {
-            // file not new
-            return false; 
-        }
-        if (p_get_metadata($ID, 'geo', true)) {
-            // no geo metadata available, ping is useless
-            return false; 
-        }
-
-        $url = 'http://geourl.org/ping/?p=' . wl($ID, '', true);
-        $http = new DokuHTTPClient();
-        $result = $http->get($url);
-        dbglog($result, "GeoURL Ping response for $url");
-        return $result;
     }
 
     /**

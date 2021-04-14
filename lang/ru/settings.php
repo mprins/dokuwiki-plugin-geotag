@@ -21,7 +21,6 @@
  * @license BSD license
  * @author  Aleksej Kozlov <nellesmeti@gmail.com>
  */
-$lang['geotag_pinggeourl'] = 'Уведомить GeoURL.org о необходимости индексирования';
 $lang['geotag_location_prefix'] = 'Текст, по умолчанию показываемый перед геотегом';
 $lang['geotag_showlocation'] = 'Показывать название местоположения в геотеге (вместо текста по умолчанию)';
 $lang['geotag_hide'] = 'Прятать геотег (средствами css)';

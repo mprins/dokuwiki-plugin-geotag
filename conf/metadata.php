@@ -21,7 +21,6 @@
  * @license BSD license
  * @author Mark C. Prins <mprins@users.sf.net>
  */
-$meta ['geotag_pinggeourl']      = array('onoff');
 $meta ['geotag_location_prefix'] = array('string');
 $meta ['geotag_showlocation']    = array('onoff');
 $meta ['geotag_hide']            = array('onoff');
