@@ -21,12 +21,10 @@
  * @license BSD license
  * @author Mark C. Prins <mprins@users.sf.net>
  */
-$meta ['geotag_pinggeourl']      = array('onoff');
 $meta ['geotag_location_prefix'] = array('string');
-$meta ['geotag_showlocation'] = array('onoff');
-$meta ['geotag_hide']         = array('onoff');
+$meta ['geotag_showlocation']    = array('onoff');
+$meta ['geotag_hide']            = array('onoff');
 $meta ['geotag_prevent_microformat_render'] = array('onoff');
-$meta ['toolbar_icon']        = array('onoff');
-$meta ['geotag_showsearch']   = array('onoff');
-$meta ['displayformat']       = array('multichoice',
-									'_choices' => array('DD', 'DMS'));
+$meta ['toolbar_icon']           = array('onoff');
+$meta ['geotag_showsearch']      = array('onoff');
+$meta ['displayformat']          = array('multichoice', '_choices' => array('DD', 'DMS'));
