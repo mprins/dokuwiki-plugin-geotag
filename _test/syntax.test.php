@@ -43,17 +43,17 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
 
         global $conf;
         $conf['allowdebug'] = 1;
-        $conf['cachetime'] = -1;
+        $conf['cachetime']  = -1;
 
         $data = array();
         search($data, $conf['datadir'], 'search_allpages', array('skipacl' => true));
 
         $verbose = false;
-        $force = false;
-        foreach ($data as $val) {
+        $force   = false;
+        foreach($data as $val) {
             idx_addPage($val['id'], $verbose, $force);
         }
-        if ($conf['allowdebug']) {
+        if($conf['allowdebug']) {
             touch(DOKU_TMP_DATA . 'cache/debug.log');
         }
     }
@@ -63,7 +63,7 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
 
         global $conf;
         // try to get the debug log after running the test, print and clear
-        if ($conf['allowdebug']) {
+        if($conf['allowdebug']) {
             print "\n";
             readfile(DOKU_TMP_DATA . 'cache/debug.log');
             unlink(DOKU_TMP_DATA . 'cache/debug.log');
@@ -71,15 +71,21 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
     }
 
     public function test_geotag(): void {
-        $request = new TestRequest();
-        $response = $request->get(array('id'=>'minimalgeotag'), '/doku.php');
+        $request  = new TestRequest();
+        $response = $request->get(array('id' => 'minimalgeotag'), '/doku.php');
 
-        $this->assertEquals('minimalgeotag',
-                        $response->queryHTML('meta[name="keywords"]')->attr('content'));
-        $this->assertEquals('51.565696;5.324596',
-                        $response->queryHTML('meta[name="geo.position"]')->attr('content'));
-        $this->assertEquals('51.565696, 5.324596',
-                        $response->queryHTML('meta[name="ICBM"]')->attr('content'));
+        $this->assertEquals(
+            'minimalgeotag',
+            $response->queryHTML('meta[name="keywords"]')->attr('content')
+        );
+        $this->assertEquals(
+            '51.565696;5.324596',
+            $response->queryHTML('meta[name="geo.position"]')->attr('content')
+        );
+        $this->assertEquals(
+            '51.565696, 5.324596',
+            $response->queryHTML('meta[name="ICBM"]')->attr('content')
+        );
 
         $this->assertTrue(
             strpos($response->getContent(), 'Geotag (location) for:') !== false,
@@ -88,15 +94,21 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
     }
 
     public function test_fullgeotag(): void {
-        $request = new TestRequest();
-        $response = $request->get(array('id'=>'fullgeotag'), '/doku.php');
+        $request  = new TestRequest();
+        $response = $request->get(array('id' => 'fullgeotag'), '/doku.php');
 
-        $this->assertEquals('fullgeotag',
-                        $response->queryHTML('meta[name="keywords"]')->attr('content'));
-        $this->assertEquals('52.132633;5.291266;9',
-                        $response->queryHTML('meta[name="geo.position"]')->attr('content'));
-        $this->assertEquals('52.132633, 5.291266',
-                        $response->queryHTML('meta[name="ICBM"]')->attr('content'));
+        $this->assertEquals(
+            'fullgeotag',
+            $response->queryHTML('meta[name="keywords"]')->attr('content')
+        );
+        $this->assertEquals(
+            '52.132633;5.291266;9',
+            $response->queryHTML('meta[name="geo.position"]')->attr('content')
+        );
+        $this->assertEquals(
+            '52.132633, 5.291266',
+            $response->queryHTML('meta[name="ICBM"]')->attr('content')
+        );
 
         $this->assertTrue(
             strpos($response->getContent(), 'Geotag (location) for:') !== false,
@@ -105,15 +117,21 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
     }
 
     public function test_fullgeotagnegativecoords(): void {
-        $request = new TestRequest();
-        $response = $request->get(array('id'=>'fullgeotagnegativecoords'), '/doku.php');
+        $request  = new TestRequest();
+        $response = $request->get(array('id' => 'fullgeotagnegativecoords'), '/doku.php');
 
-        $this->assertEquals('fullgeotagnegativecoords',
-                        $response->queryHTML('meta[name="keywords"]')->attr('content'));
-        $this->assertEquals('-52.132633;-5.291266;-9',
-                        $response->queryHTML('meta[name="geo.position"]')->attr('content'));
-        $this->assertEquals('-52.132633, -5.291266',
-                        $response->queryHTML('meta[name="ICBM"]')->attr('content'));
+        $this->assertEquals(
+            'fullgeotagnegativecoords',
+            $response->queryHTML('meta[name="keywords"]')->attr('content')
+        );
+        $this->assertEquals(
+            '-52.132633;-5.291266;-9',
+            $response->queryHTML('meta[name="geo.position"]')->attr('content')
+        );
+        $this->assertEquals(
+            '-52.132633, -5.291266',
+            $response->queryHTML('meta[name="ICBM"]')->attr('content')
+        );
 
         $this->assertTrue(
             strpos($response->getContent(), 'Geotag (location) for:') !== false,

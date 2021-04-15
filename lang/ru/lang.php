@@ -21,6 +21,6 @@
  * @license BSD license
  * @author  Aleksej Kozlov <nellesmeti@gmail.com>
  */
-$lang['geotag_desc'] = 'Геотег:';
+$lang['geotag_desc']  = 'Геотег:';
 $lang['toolbar_desc'] = 'Вставить геотег';
-$lang['findnearby'] = 'Искать около точки:';
+$lang['findnearby']   = 'Искать около точки:';

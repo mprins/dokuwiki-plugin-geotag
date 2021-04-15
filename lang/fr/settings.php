@@ -21,10 +21,10 @@
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
  */
-$lang['geotag_location_prefix'] = 'Texte par défaut pour voir en face de la geotag';
-$lang['geotag_showlocation'] = 'Nom Montrer emplacement à l\'intérieur Geotag, impérieuse ci-dessus';
-$lang['geotag_hide'] = 'Masquer geotag (css)';
+$lang['geotag_location_prefix']            = 'Texte par défaut pour voir en face de la geotag';
+$lang['geotag_showlocation']               = 'Nom Montrer emplacement à l\'intérieur Geotag, impérieuse ci-dessus';
+$lang['geotag_hide']                       = 'Masquer geotag (css)';
 $lang['geotag_prevent_microformat_render'] = 'Prévenir rendu de microformat geotag';
-$lang['toolbar_icon'] = 'Voir icône de la barre';
-$lang['geotag_showsearch'] = 'Lier le geotag a rechercher aux alentours de (spatialhelper plugin nécessaire)';
-$lang['displayformat'] = 'Format d\'affichage des Coordonnées; degrés décimaux ou degrés, minutes, secondes';
+$lang['toolbar_icon']                      = 'Voir icône de la barre';
+$lang['geotag_showsearch']      = 'Lier le geotag a rechercher aux alentours de (spatialhelper plugin nécessaire)';
+$lang['displayformat']          = 'Format d\'affichage des Coordonnées; degrés décimaux ou degrés, minutes, secondes';
