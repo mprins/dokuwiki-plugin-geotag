@@ -21,10 +21,10 @@
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
  */
-$lang['geotag_location_prefix'] = 'Te tonen default tekst voorafgaand aan geotag';
-$lang['geotag_showlocation'] = 'Toon locatie naam in de geotag, overschrijft bovenstaande';
-$lang['geotag_hide'] = 'Verberg geotags (css)';
+$lang['geotag_location_prefix']            = 'Te tonen default tekst voorafgaand aan geotag';
+$lang['geotag_showlocation']               = 'Toon locatie naam in de geotag, overschrijft bovenstaande';
+$lang['geotag_hide']                       = 'Verberg geotags (css)';
 $lang['geotag_prevent_microformat_render'] = 'Voorkom geotag microformat rendering';
-$lang['toolbar_icon'] = 'Toon toolbar icon';
-$lang['geotag_showsearch'] = 'Link geotag als zoekactie (spatialhelper plugin benodigd)';
-$lang['displayformat'] = 'Coördinaten weergave formaat; decimale graden of graden, minuten, seconden';
+$lang['toolbar_icon']                      = 'Toon toolbar icon';
+$lang['geotag_showsearch']                 = 'Link geotag als zoekactie (spatialhelper plugin benodigd)';
+$lang['displayformat']                   = 'Coördinaten weergave formaat; decimale graden of graden, minuten, seconden';

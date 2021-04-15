@@ -14,23 +14,23 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 .geo {
-	border: none;
-	clear: both;
-	visibility: visible;
-	background: transparent url(images/geotag.png) center right no-repeat;
-	padding: 1px 18px 1px 0px;
-	font-size: smaller;
-	text-align: left;
-	display: inline;
-	white-space: nowrap;
+    border: none;
+    clear: both;
+    visibility: visible;
+    background: transparent url(images/geotag.png) center right no-repeat;
+    padding: 1px 18px 1px 0px;
+    font-size: smaller;
+    text-align: left;
+    display: inline;
+    white-space: nowrap;
 }
 
 /* override DW styles for link */
 .geo a:link, .geo a:visited {
-	border: none;
+    border: none;
 }
 
 .geotagPrint {
-	font-size: smaller;
-	display: inline;
+    font-size: smaller;
+    display: inline;
 }

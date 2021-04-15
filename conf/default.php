@@ -19,12 +19,12 @@
  * Default settings for the geotag plugin.
  *
  * @license BSD license
- * @author Mark C. Prins <mprins@users.sf.net>
+ * @author  Mark C. Prins <mprins@users.sf.net>
  */
-$conf['geotag_location_prefix'] = 'GEOTAG: ';
-$conf['geotag_showlocation'] = 0;
-$conf['geotag_hide'] = 0;
+$conf['geotag_location_prefix']            = 'GEOTAG: ';
+$conf['geotag_showlocation']               = 0;
+$conf['geotag_hide']                       = 0;
 $conf['geotag_prevent_microformat_render'] = 0;
-$conf['toolbar_icon'] = 1;
-$conf['geotag_showsearch'] = 1;
-$conf['displayformat'] = 'DD';
+$conf['toolbar_icon']                      = 1;
+$conf['geotag_showsearch']                 = 1;
+$conf['displayformat']                     = 'DD';

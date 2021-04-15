@@ -21,6 +21,6 @@
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
  */
-$lang['geotag_desc'] = 'Geotag (lieu) pour:';
+$lang['geotag_desc']  = 'Geotag (lieu) pour:';
 $lang['toolbar_desc'] = 'Insérez geotag';
-$lang['findnearby'] = 'Rechercher aux alentours de';
+$lang['findnearby']   = 'Rechercher aux alentours de';
