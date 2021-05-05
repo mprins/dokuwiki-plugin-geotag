@@ -57,9 +57,8 @@ class general_plugin_geotag_test extends DokuWikiTest
     public function test_plugin_geotag_isloaded(): void
     {
         global $plugin_controller;
-        $this->assertTrue(
-            in_array('geotag', $plugin_controller->getList()),
-            "geotag plugin is loaded"
+        $this->assertContains(
+            'geotag', $plugin_controller->getList(), "geotag plugin is loaded"
         );
     }
 }

@@ -14,7 +14,9 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 use dokuwiki\Logger;
+
 /**
  * Syntax tests for the geotag plugin.
  *
@@ -37,7 +39,13 @@ class syntax_plugin_geotag_test extends DokuWikiTest
 
         TestUtils::rcopy(TMP_DIR, dirname(__FILE__) . '/data/');
 
-        Logger::debug("set up class syntax_plugin_geotag_test");
+        // fails on stable/Hogfather seems Logger is not autoloaded
+        if (class_exists('dokuwiki\Logger')) {
+            Logger::debug("set up class syntax_plugin_geotag_test");
+        } else {
+            dbglog("set up class syntax_plugin_geotag_test");
+        }
+
     }
 
     public function setUp(): void
@@ -61,19 +69,6 @@ class syntax_plugin_geotag_test extends DokuWikiTest
         }
     }
 
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        global $conf;
-        // try to get the debug log after running the test, print and clear
-        if ($conf['allowdebug']) {
-            print "\n";
-            readfile(DOKU_TMP_DATA . 'cache/debug.log');
-            unlink(DOKU_TMP_DATA . 'cache/debug.log');
-        }
-    }
-
     public function test_geotag(): void
     {
         $request  = new TestRequest();
@@ -92,8 +87,9 @@ class syntax_plugin_geotag_test extends DokuWikiTest
             $response->queryHTML('meta[name="ICBM"]')->attr('content')
         );
 
-        $this->assertTrue(
-            strpos($response->getContent(), 'Geotag (location) for:') !== false,
+        $this->assertContains(
+            'Geotag (location) for:',
+            $response->getContent(),
             '"Geotag (location) for:" was not in the output'
         );
     }
@@ -116,8 +112,9 @@ class syntax_plugin_geotag_test extends DokuWikiTest
             $response->queryHTML('meta[name="ICBM"]')->attr('content')
         );
 
-        $this->assertTrue(
-            strpos($response->getContent(), 'Geotag (location) for:') !== false,
+        $this->assertContains(
+            'Geotag (location) for:',
+            $response->getContent(),
             '"Geotag (location) for:" was not in the output'
         );
     }
@@ -139,10 +136,29 @@ class syntax_plugin_geotag_test extends DokuWikiTest
             '-52.132633, -5.291266',
             $response->queryHTML('meta[name="ICBM"]')->attr('content')
         );
-
-        $this->assertTrue(
-            strpos($response->getContent(), 'Geotag (location) for:') !== false,
+        $this->assertContains(
+            'Geotag (location) for:',
+            $response->getContent(),
             '"Geotag (location) for:" was not in the output'
         );
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        global $conf;
+        // try to get the debug log after running the test, print and clear
+        if ($conf['allowdebug']) {
+            print "\n";
+            readfile(DOKU_TMP_DATA . 'cache/debug.log');
+            unlink(DOKU_TMP_DATA . 'cache/debug.log');
+        }
+        if ($conf['allowdebug']) {
+            // TODO Igor and up logfiles have date in the name, so this is not working
+            print "\n";
+            readfile(DOKU_TMP_DATA . 'data/log/debug.log');
+            unlink(DOKU_TMP_DATA . 'data/log/debug.log');
+        }
     }
 }

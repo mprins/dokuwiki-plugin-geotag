@@ -103,7 +103,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin
         try {
             $geohash = $this->geohash(substr($lat[0], 4), substr($lon[0], 4));
         } catch (Exception $e) {
-            Logger::debug("failed to create geohash for $lat[0], $lon[0]");
+            Logger::error("failed to create geohash for $lat[0], $lon[0]", $e);
         }
         return array(
             hsc(trim(substr($lat[0], 4))),
@@ -129,7 +129,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin
     private function geohash(float $lat, float $lon): string
     {
         if (!$geophp = plugin_load('helper', 'geophp')) {
-            Logger::debug('syntax_plugin_geotag_geotag::geohash: geophp plugin is not available.', $geophp);
+            Logger::error('syntax_plugin_geotag_geotag::geohash: geophp plugin is not available.', $geophp);
             return "";
         }
         $geometry = new Point($lon, $lat);
