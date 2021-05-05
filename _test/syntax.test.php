@@ -14,7 +14,9 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-use dokuwiki\Logger;
+
+// use dokuwiki\Logger;
+
 /**
  * Syntax tests for the geotag plugin.
  *
@@ -37,7 +39,8 @@ class syntax_plugin_geotag_test extends DokuWikiTest
 
         TestUtils::rcopy(TMP_DIR, dirname(__FILE__) . '/data/');
 
-        Logger::debug("set up class syntax_plugin_geotag_test");
+        // fails on stable/Hogfather seems Logger is not autoloaded
+        // Logger::debug("set up class syntax_plugin_geotag_test");
     }
 
     public function setUp(): void
@@ -58,19 +61,6 @@ class syntax_plugin_geotag_test extends DokuWikiTest
         }
         if ($conf['allowdebug']) {
             touch(DOKU_TMP_DATA . 'cache/debug.log');
-        }
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        global $conf;
-        // try to get the debug log after running the test, print and clear
-        if ($conf['allowdebug']) {
-            print "\n";
-            readfile(DOKU_TMP_DATA . 'cache/debug.log');
-            unlink(DOKU_TMP_DATA . 'cache/debug.log');
         }
     }
 
@@ -144,5 +134,18 @@ class syntax_plugin_geotag_test extends DokuWikiTest
             strpos($response->getContent(), 'Geotag (location) for:') !== false,
             '"Geotag (location) for:" was not in the output'
         );
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        global $conf;
+        // try to get the debug log after running the test, print and clear
+        if ($conf['allowdebug']) {
+            print "\n";
+            readfile(DOKU_TMP_DATA . 'cache/debug.log');
+            unlink(DOKU_TMP_DATA . 'cache/debug.log');
+        }
     }
 }
