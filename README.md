@@ -14,3 +14,5 @@ Please refer to http://www.dokuwiki.org/plugins for additional info on how to in
 [![GitHub issues](https://img.shields.io/github/issues/mprins/dokuwiki-plugin-geotag.svg)](https://github.com/mprins/dokuwiki-plugin-geotag/issues)
 [![GitHub forks](https://img.shields.io/github/forks/mprins/dokuwiki-plugin-geotag.svg)](https://github.com/mprins/dokuwiki-plugin-geotag/network)
 [![GitHub stars](https://img.shields.io/github/stars/mprins/dokuwiki-plugin-geotag.svg)](https://github.com/mprins/dokuwiki-plugin-geotag/stargazers)
+
+<img src="https://sourceforge.net/cdn/syndication/badge_img/239475/oss-community-choice-white?achievement=oss-community-choice&r=https://sourceforge.net/p/dokuwikispatial/admin/files/badges/" alt="Spatial plugins for Dokuwiki received the Community Choice Award on 2022-03-02" data-canonical-src="https://sourceforge.net/cdn/syndication/badge_img/239475/oss-community-choice-white?achievement=oss-community-choice&amp;r=https://sourceforge.net/p/dokuwikispatial/admin/files/badges/" width="100" height="100">
