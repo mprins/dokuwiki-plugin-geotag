@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2015 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011-2022 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,8 +15,8 @@
  */
 .geo {
     border-top: 2px dotted __border__;
-    background: transparent url(images/geotag.png) 0px 1px no-repeat;
-    padding: 1px 0px 1px 18px;
+    background: transparent url(images/geotag.png) 0 1px no-repeat;
+    padding: 1px 0 1px 18px;
     font-size: smaller;
     clear: both;
     text-align: left;
