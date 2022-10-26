@@ -42,21 +42,20 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
      * @param Doku_Event   $event
      *          the DokuWiki event. $event->data is a two-dimensional
      *          array of all meta headers. The keys are meta, link and script.
-     * @param unknown_type $param
      *
-     * @see http://www.dokuwiki.org/devel:event:tpl_metaheader_output
+     * @see https://www.dokuwiki.org/devel:event:tpl_metaheader_output
      */
-    public function handleMetaheaderOutput(Doku_Event $event, $param) {
+    public function handleMetaheaderOutput(Doku_Event $event) {
         global $ID;
-        $title     = p_get_metadata($ID, 'title', true);
-        $geotags   = p_get_metadata($ID, 'geo', true);
-        $region    = $geotags ['region'];
-        $lat       = $geotags ['lat'];
-        $lon       = $geotags ['lon'];
-        $alt       = $geotags ['alt'];
-        $country   = $geotags ['country'];
-        $placename = $geotags ['placename'];
-        $geohash   = $geotags ['geohash'];
+        $title     = p_get_metadata($ID, 'title', METADATA_RENDER_USING_SIMPLE_CACHE);
+        $geotags   = p_get_metadata($ID, 'geo', METADATA_RENDER_USING_SIMPLE_CACHE) ?? array();
+        $region    = $geotags ['region'] ?? NULL;
+        $lat       = $geotags ['lat'] ?? NULL;
+        $lon       = $geotags ['lon'] ?? NULL;
+        $alt       = $geotags ['alt'] ?? NULL;
+        $country   = $geotags ['country'] ?? NULL;
+        $placename = $geotags ['placename'] ?? NULL;
+        $geohash   = $geotags ['geohash'] ?? NULL;
 
         if(!empty ($region)) {
             $event->data ['meta'] [] = array(
