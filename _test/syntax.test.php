@@ -87,8 +87,8 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
             $response->queryHTML('meta[name="ICBM"]')->attr('content')
         );
 
-        $this->assertTrue(
-            strpos($response->getContent(), 'Geotag (location) for:') !== false,
+        $this->assertNotFalse(
+            strpos($response->getContent(), 'Geotag (location) for:'),
             '"Geotag (location) for:" was not in the output'
         );
     }
@@ -110,8 +110,8 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
             $response->queryHTML('meta[name="ICBM"]')->attr('content')
         );
 
-        $this->assertTrue(
-            strpos($response->getContent(), 'Geotag (location) for:') !== false,
+        $this->assertNotFalse(
+            strpos($response->getContent(), 'Geotag (location) for:'),
             '"Geotag (location) for:" was not in the output'
         );
     }
@@ -133,9 +133,32 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
             $response->queryHTML('meta[name="ICBM"]')->attr('content')
         );
 
-        $this->assertTrue(
-            strpos($response->getContent(), 'Geotag (location) for:') !== false,
+        $this->assertNotFalse(
+            strpos($response->getContent(), 'Geotag (location) for:'),
             '"Geotag (location) for:" was not in the output'
+        );
+    }
+
+    public function test_nogeotag(): void {
+        $request  = new TestRequest();
+        $response = $request->get(array('id' => 'nogeotag'), '/doku.php');
+
+        $this->assertEquals(
+            'nogeotag',
+            $response->queryHTML('meta[name="keywords"]')->attr('content')
+        );
+        $this->assertEquals(
+            null,
+            $response->queryHTML('meta[name="geo.position"]')->attr('content')
+        );
+        $this->assertEquals(
+            null,
+            $response->queryHTML('meta[name="ICBM"]')->attr('content')
+        );
+
+        $this->assertFalse(
+            strpos($response->getContent(), 'Geotag (location) for:'),
+            '"Geotag (location) for:" should not be in the output'
         );
     }
 }
