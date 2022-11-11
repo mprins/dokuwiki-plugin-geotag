@@ -27,4 +27,8 @@ jobs:
 #            - name: run PHP codesniffer
 #              run: php phpcs -v --runtime-set ignore_warnings_on_exit true --standard=_test/phpcs.xml lib/plugins/geotag
             - name: run PHP codesniffer
-              run: phpcs -q --standard=_test/phpcs_MigrationAdjustments.xml --report=checkstyle --runtime-set ignore_warnings_on_exit lib/plugins/geotag | cs2pr
+              run: phpcs -v --standard=_test/phpcs_MigrationAdjustments.xml --report-full --report-checkstyle=./phpcs-report.xml lib/plugins/geotag
+
+            - name: Annotate PR
+              if: ${{ always() && steps.phpcs.outcome == 'failure' }}
+              run: cs2pr --notices-as-warnings --colorize ./phpcs-report.xml

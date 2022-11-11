@@ -1,0 +1,22 @@
+{
+  "name": "mprins/dokuwiki-plugin-geotag",
+  "description": "geotag plugin for DokuWiki",
+  "homepage": "https://www.dokuwiki.org/plugin:geotag",
+  "minimum-stability": "stable",
+  "type": "plugin",
+  "license": "bsd-2-clause",
+  "authors": [
+    {
+      "name": "mprins",
+      "email": "mprins@users.sf.net"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "config": {
+    "platform": {
+      "php": "8.0"
+    }
+  }
+}
