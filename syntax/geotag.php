@@ -187,7 +187,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
             $renderer->meta ['geo'] ['region']    = $region;
             $renderer->meta ['geo'] ['country']   = $country;
             $renderer->meta ['geo'] ['geohash']   = $geohash;
-            $renderer->meta ['geo'] ['alt']       = $alt;
+            if(!empty ($alt)) {
+                $renderer->meta ['geo'] ['alt'] = $alt;
+            }
             return true;
         } elseif($mode == 'odt') {
             if(!empty ($alt)) {
