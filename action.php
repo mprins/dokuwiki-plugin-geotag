@@ -34,6 +34,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
         if($this->getConf('toolbar_icon')) {
             $controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'insertButton', array());
         }
+        $controller->register_hook('PLUGIN_POPULARITY_DATA_SETUP', 'AFTER', $this, 'popularity');
     }
 
     /**
@@ -132,5 +133,19 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
             'sample' => '52.2345',
             'close'  => ', lon:7.521, alt: , placename: , country: , region: }}'
         );
+    }
+
+    /**
+     * Add geotag popularity data.
+     *
+     * @param Doku_Event $event
+     *          the DokuWiki event
+     */
+    final public function popularity(Doku_Event $event): void {
+        global $updateVersion;
+        $plugin_info                              = $this->getInfo();
+        $event->data['geotag']['version']         = $plugin_info['date'];
+        $event->data['geotag']['dwversion']       = $updateVersion;
+        $event->data['geotag']['combinedversion'] = $updateVersion . '_' . $plugin_info['date'];
     }
 }
