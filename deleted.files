@@ -1,3 +1,16 @@
 helper.php
 script.js
 CHANGES
+
+_test/action.test.php
+_test/general.test.php
+_test/data/pages/fullgeotag.txt
+_test/data/pages/fullgeotagnegativecoords.txt
+_test/data/pages/minimalgeotag.txt
+_test/data/pages/nogeotag.txt
+
+.github/workflows/phpCS.yml
+.github/workflows/maintenance.yml
+.github/workflows/CI.yml
+.github/dependabot.yml
+.github/ISSUE_TEMPLATE.md
