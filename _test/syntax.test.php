@@ -38,7 +38,7 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
         dbglog("\nset up class syntax_plugin_geotag_test");
     }
 
-    public function setUp(): void {
+    final public function setUp(): void {
         parent::setUp();
 
         global $conf;
@@ -58,7 +58,7 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
         }
     }
 
-    public function tearDown(): void {
+    final public function tearDown(): void {
         parent::tearDown();
 
         global $conf;
@@ -70,7 +70,7 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
         }
     }
 
-    public function test_geotag(): void {
+    final public function test_geotag(): void {
         $request  = new TestRequest();
         $response = $request->get(array('id' => 'minimalgeotag'), '/doku.php');
 
@@ -93,7 +93,7 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
         );
     }
 
-    public function test_fullgeotag(): void {
+    final public function test_fullgeotag(): void {
         $request  = new TestRequest();
         $response = $request->get(array('id' => 'fullgeotag'), '/doku.php');
 
@@ -116,7 +116,7 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
         );
     }
 
-    public function test_fullgeotagnegativecoords(): void {
+    final public function test_fullgeotagnegativecoords(): void {
         $request  = new TestRequest();
         $response = $request->get(array('id' => 'fullgeotagnegativecoords'), '/doku.php');
 
@@ -139,7 +139,7 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
         );
     }
 
-    public function test_nogeotag(): void {
+    final public function test_nogeotag(): void {
         $request  = new TestRequest();
         $response = $request->get(array('id' => 'nogeotag'), '/doku.php');
 

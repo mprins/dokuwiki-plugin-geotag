@@ -30,7 +30,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
      *
      * @see DokuWiki_Syntax_Plugin::getType()
      */
-    public function getType() {
+    final public function getType(): string {
         return 'substition';
     }
 
@@ -38,7 +38,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
      *
      * @see DokuWiki_Syntax_Plugin::getPType()
      */
-    public function getPType() {
+    final public function getPType(): string {
         return 'block';
     }
 
@@ -46,7 +46,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
      *
      * @see Doku_Parser_Mode::getSort()
      */
-    public function getSort() {
+    final public function getSort(): int {
         return 305;
     }
 
@@ -54,7 +54,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
      *
      * @see Doku_Parser_Mode::connectTo()
      */
-    public function connectTo($mode) {
+    final public function connectTo($mode): void {
         $this->Lexer->addSpecialPattern('\{\{geotag>.*?\}\}', $mode, 'plugin_geotag_geotag');
     }
 
@@ -62,7 +62,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
      *
      * @see DokuWiki_Syntax_Plugin::handle()
      */
-    public function handle($match, $state, $pos, Doku_Handler $handler) {
+    final public function handle($match, $state, $pos, Doku_Handler $handler): array {
         $tags = trim(substr($match, 9, -2));
         // parse geotag content
         preg_match("(lat[:|=]-?\d*\.\d*)", $tags, $lat);
@@ -76,7 +76,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
         $showlocation = $this->getConf('geotag_location_prefix');
         if($this->getConf('geotag_showlocation')) {
             $showlocation = trim(substr($placename [0], 10));
-            if(strlen($showlocation) < 1) {
+            if($showlocation === '') {
                 $showlocation = $this->getConf('geotag_location_prefix');
             }
         }
@@ -86,9 +86,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
             $style = ' style="display: none;"';
         }
         // override config for the current tag
-        if(array_key_exists(0, $hide) && trim($hide [0]) == 'hide') {
+        if(array_key_exists(0, $hide) && trim($hide [0]) === 'hide') {
             $style = ' style="display: none;"';
-        } elseif(array_key_exists(0, $hide) && trim($hide [0]) == 'unhide') {
+        } elseif(array_key_exists(0, $hide) && trim($hide [0]) === 'unhide') {
             $style = '';
         }
 
@@ -112,26 +112,24 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
      * @param float $lat
      * @param float $lon
      */
-    private function geohash($lat, $lon) {
+    private function geohash(float $lat, float $lon) {
         if(!$geophp = plugin_load('helper', 'geophp')) {
             dbglog($geophp, 'syntax_plugin_geotag_geotag::geohash: geophp plugin is not available.');
             return "";
         }
-        $_lat     = floatval($lat);
-        $_lon     = floatval($lon);
-        $geometry = new Point($_lon, $_lat);
-        return $geometry->out('geohash');
+
+        return (new Point($lon, $lat))->out('geohash');
     }
 
     /**
      *
      * @see DokuWiki_Syntax_Plugin::render()
      */
-    public function render($mode, Doku_Renderer $renderer, $data) {
+    final public function render($format, Doku_Renderer $renderer, $data): bool {
         if($data === false) {
             return false;
         }
-        list ($lat, $lon, $alt, $geohash, $region, $placename, $country, $showlocation, $style) = $data;
+        [$lat, $lon, $alt, $geohash, $region, $placename, $country, $showlocation, $style] = $data;
         $ddlat = $lat;
         $ddlon = $lon;
         if($this->getConf('displayformat') === 'DMS') {
@@ -142,14 +140,14 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
             $lon .= 'º';
         }
 
-        if($mode == 'xhtml') {
+        if($format === 'xhtml') {
             if($this->getConf('geotag_prevent_microformat_render')) {
                 return true;
             }
             $searchPre  = '';
             $searchPost = '';
             if($this->getConf('geotag_showsearch')) {
-                if($spHelper = &plugin_load('helper', 'spatialhelper_search')) {
+                if($spHelper = plugin_load('helper', 'spatialhelper_search')) {
                     $title      = $this->getLang('findnearby') . '&nbsp;' . $placename;
                     $url        = wl(
                         getID(), array(
@@ -166,9 +164,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
             // render geotag microformat/schema.org microdata
             $renderer->doc .= '<span class="geotagPrint">' . $this->getLang('geotag_desc') . '</span>';
             $renderer->doc .= '<div class="h-geo geo"' . $style . ' title="' . $this->getLang('geotag_desc')
-                . $placename . '" itemscope itemtype="http://schema.org/Place">';
+                . $placename . '" itemscope itemtype="https://schema.org/Place">';
             $renderer->doc .= '<span itemprop="name">' . $showlocation . '</span>:&nbsp;' . $searchPre;
-            $renderer->doc .= '<span itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">';
+            $renderer->doc .= '<span itemprop="geo" itemscope itemtype="https://schema.org/GeoCoordinates">';
             $renderer->doc .= '<span class="p-latitude latitude" itemprop="latitude" data-latitude="' . $ddlat . '">'
                 . $lat . '</span>;';
             $renderer->doc .= '<span class="p-longitude longitude" itemprop="longitude" data-longitude="' . $ddlon
@@ -179,7 +177,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
             }
             $renderer->doc .= '</span>' . $searchPost . '</div>' . DOKU_LF;
             return true;
-        } elseif($mode == 'metadata') {
+        } elseif($format === 'metadata') {
             // render metadata (our action plugin will put it in the page head)
             $renderer->meta ['geo'] ['lat']       = $ddlat;
             $renderer->meta ['geo'] ['lon']       = $ddlon;
@@ -191,7 +189,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
                 $renderer->meta ['geo'] ['alt'] = $alt;
             }
             return true;
-        } elseif($mode == 'odt') {
+        } elseif($format === 'odt') {
             if(!empty ($alt)) {
                 $alt = ', ' . $alt . 'm';
             }
@@ -203,8 +201,9 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
             $renderer->monospace_close();
             $renderer->p_close();
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
     /**
@@ -214,13 +213,13 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
      * @return string
      * @todo move this into a shared library
      */
-    private function convertLat($decimaldegrees) {
+    private function convertLat(float $decimaldegrees): string {
         if(strpos($decimaldegrees, '-') !== false) {
             $latPos = "S";
         } else {
             $latPos = "N";
         }
-        $dms = $this->convertDDtoDMS(abs(floatval($decimaldegrees)));
+        $dms = $this->convertDDtoDMS(abs($decimaldegrees));
         return hsc($dms . $latPos);
     }
 
@@ -231,7 +230,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
      * @return string dms
      * @todo move this into a shared library
      */
-    private function convertDDtoDMS($decimaldegrees) {
+    private function convertDDtoDMS(float $decimaldegrees): string {
         $dms  = floor($decimaldegrees);
         $secs = ($decimaldegrees - $dms) * 3600;
         $min  = floor($secs / 60);
@@ -247,13 +246,13 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin {
      * @return string
      * @todo move this into a shared library
      */
-    private function convertLon($decimaldegrees) {
+    private function convertLon(float $decimaldegrees): string {
         if(strpos($decimaldegrees, '-') !== false) {
             $lonPos = "W";
         } else {
             $lonPos = "E";
         }
-        $dms = $this->convertDDtoDMS(abs(floatval($decimaldegrees)));
+        $dms = $this->convertDDtoDMS(abs($decimaldegrees));
         return hsc($dms . $lonPos);
     }
 }

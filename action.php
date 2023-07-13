@@ -29,7 +29,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
      * @param Doku_Event_Handler $controller
      *          DokuWiki's event controller object. Also available as global $EVENT_HANDLER
      */
-    public function register(Doku_Event_Handler $controller) {
+    final public function register(Doku_Event_Handler $controller): void {
         $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'handleMetaheaderOutput');
         if($this->getConf('toolbar_icon')) {
             $controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'insertButton', array());
@@ -46,7 +46,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
      *
      * @see https://www.dokuwiki.org/devel:event:tpl_metaheader_output
      */
-    public function handleMetaheaderOutput(Doku_Event $event) {
+    final public function handleMetaheaderOutput(Doku_Event $event): void {
         global $ID;
         $title     = p_get_metadata($ID, 'title', METADATA_RENDER_USING_SIMPLE_CACHE);
         $geotags   = p_get_metadata($ID, 'geo', METADATA_RENDER_USING_SIMPLE_CACHE) ?? array();
@@ -100,7 +100,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
                 /*
                  * don't specify the DC namespace as this is incomplete; it should be done at the
                  * template level as it also needs a 'profile' attribute on the head/container,
-                 * see: http://dublincore.org/documents/dc-html/#sect-3.1.1
+                 * see: https://dublincore.org/documents/dc-html/#sect-3.1.1
                  * $event->data ['link'] [] = array ('rel' => 'schema.DC',
                  * 'href' => 'http://purl.org/dc/elements/1.1/');
                  */
@@ -124,7 +124,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
      * @param Doku_Event $event
      *          the DokuWiki event
      */
-    public function insertButton(Doku_Event $event, $param) {
+    final public function insertButton(Doku_Event $event, array $param): void {
         $event->data [] = array(
             'type'   => 'format',
             'title'  => $this->getLang('toolbar_desc'),
