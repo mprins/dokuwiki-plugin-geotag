@@ -21,14 +21,16 @@
  * @group plugin_geotag
  * @group plugins
  */
-class general_plugin_geotag_test extends DokuWikiTest {
+class general_plugin_geotag_test extends DokuWikiTest
+{
 
     protected $pluginsEnabled = array('geotag');
 
     /**
      * Simple test to make sure the plugin.info.txt is in correct format
      */
-    final public function test_plugininfo(): void {
+    final public function test_plugininfo(): void
+    {
         $file = __DIR__ . '/../plugin.info.txt';
         $this->assertFileExists($file);
 
@@ -52,10 +54,13 @@ class general_plugin_geotag_test extends DokuWikiTest {
     /**
      * test if plugin is loaded.
      */
-    final public function test_plugin_geotag_isloaded(): void {
+    final public function test_plugin_geotag_isloaded(): void
+    {
         global $plugin_controller;
         $this->assertContains(
-            'geotag', $plugin_controller->getList(), "geotag plugin is loaded"
+            'geotag',
+            $plugin_controller->getList(),
+            "geotag plugin is loaded"
         );
     }
 }

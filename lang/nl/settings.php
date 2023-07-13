@@ -27,4 +27,4 @@ $lang['geotag_hide']                       = 'Verberg geotags (css)';
 $lang['geotag_prevent_microformat_render'] = 'Voorkom geotag microformat rendering';
 $lang['toolbar_icon']                      = 'Toon toolbar icon';
 $lang['geotag_showsearch']                 = 'Link geotag als zoekactie (spatialhelper plugin benodigd)';
-$lang['displayformat']                   = 'Coördinaten weergave formaat; decimale graden of graden, minuten, seconden';
+$lang['displayformat']                     = 'Coördinaten weergave formaat; decimale graden of graden, minuten, seconden';

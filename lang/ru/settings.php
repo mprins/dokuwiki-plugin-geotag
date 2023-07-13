@@ -22,9 +22,9 @@
  * @author  Aleksej Kozlov <nellesmeti@gmail.com>
  */
 $lang['geotag_location_prefix']            = 'Текст, по умолчанию показываемый перед геотегом';
-$lang['geotag_showlocation']             = 'Показывать название местоположения в геотеге (вместо текста по умолчанию)';
+$lang['geotag_showlocation']               = 'Показывать название местоположения в геотеге (вместо текста по умолчанию)';
 $lang['geotag_hide']                       = 'Прятать геотег (средствами css)';
 $lang['geotag_prevent_microformat_render'] = 'Запретить рендеринг микроформата геотега';
 $lang['toolbar_icon']                      = 'Показывать иконку';
-$lang['geotag_showsearch']      = 'Геотег является ссылкой на страницу поиска около точки (нужен плагин spatialhelper)';
-$lang['displayformat']  = 'Формат отображения координат: DD - градусы с дробной частью, DMS - градусы, минуты, секунды';
+$lang['geotag_showsearch']                 = 'Геотег является ссылкой на страницу поиска около точки (нужен плагин spatialhelper)';
+$lang['displayformat']                     = 'Формат отображения координат: DD - градусы с дробной частью, DMS - градусы, минуты, секунды';
