@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2016-2018 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2016 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -21,24 +21,25 @@
  * @group plugin_geotag
  * @group plugins
  */
-class syntax_plugin_geotag_test extends DokuWikiTest {
+class syntax_plugin_geotag_test extends DokuWikiTest
+{
 
     protected $pluginsEnabled = array('geotag');
 
     /**
      * copy data and add pages to the index.
      */
-    public static function setUpBeforeClass(): void {
+    public static function setUpBeforeClass(): void
+    {
         parent::setUpBeforeClass();
         global $conf;
         $conf['allowdebug'] = 1;
 
-        TestUtils::rcopy(TMP_DIR, dirname(__FILE__) . '/data/');
-
-        dbglog("\nset up class syntax_plugin_geotag_test");
+        TestUtils::rcopy(TMP_DIR, __DIR__ . '/data/');
     }
 
-    public function setUp(): void {
+    final public function setUp(): void
+    {
         parent::setUp();
 
         global $conf;
@@ -50,27 +51,13 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
 
         $verbose = false;
         $force   = false;
-        foreach($data as $val) {
+        foreach ($data as $val) {
             idx_addPage($val['id'], $verbose, $force);
         }
-        if($conf['allowdebug']) {
-            touch(DOKU_TMP_DATA . 'cache/debug.log');
-        }
     }
 
-    public function tearDown(): void {
-        parent::tearDown();
-
-        global $conf;
-        // try to get the debug log after running the test, print and clear
-        if($conf['allowdebug']) {
-            print "\n";
-            readfile(DOKU_TMP_DATA . 'cache/debug.log');
-            unlink(DOKU_TMP_DATA . 'cache/debug.log');
-        }
-    }
-
-    public function test_geotag(): void {
+    final public function test_geotag(): void
+    {
         $request  = new TestRequest();
         $response = $request->get(array('id' => 'minimalgeotag'), '/doku.php');
 
@@ -93,7 +80,8 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
         );
     }
 
-    public function test_fullgeotag(): void {
+    final public function test_fullgeotag(): void
+    {
         $request  = new TestRequest();
         $response = $request->get(array('id' => 'fullgeotag'), '/doku.php');
 
@@ -116,7 +104,8 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
         );
     }
 
-    public function test_fullgeotagnegativecoords(): void {
+    final public function test_fullgeotagnegativecoords(): void
+    {
         $request  = new TestRequest();
         $response = $request->get(array('id' => 'fullgeotagnegativecoords'), '/doku.php');
 
@@ -139,7 +128,8 @@ class syntax_plugin_geotag_test extends DokuWikiTest {
         );
     }
 
-    public function test_nogeotag(): void {
+    final public function test_nogeotag(): void
+    {
         $request  = new TestRequest();
         $response = $request->get(array('id' => 'nogeotag'), '/doku.php');
 

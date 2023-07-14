@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2014 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -27,4 +27,4 @@ $lang['geotag_hide']                       = 'Verberg geotags (css)';
 $lang['geotag_prevent_microformat_render'] = 'Voorkom geotag microformat rendering';
 $lang['toolbar_icon']                      = 'Toon toolbar icon';
 $lang['geotag_showsearch']                 = 'Link geotag als zoekactie (spatialhelper plugin benodigd)';
-$lang['displayformat']                   = 'Coördinaten weergave formaat; decimale graden of graden, minuten, seconden';
+$lang['displayformat']                     = 'Coördinaten weergave formaat; decimale graden of graden, minuten, seconden';

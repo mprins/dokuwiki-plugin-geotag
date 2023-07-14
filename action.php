@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2011-2016 Mark C. Prins <mprins@users.sf.net>
+ * Copyright (c) 2011 Mark C. Prins <mprins@users.sf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -21,7 +21,8 @@
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
  */
-class action_plugin_geotag extends DokuWiki_Action_Plugin {
+class action_plugin_geotag extends DokuWiki_Action_Plugin
+{
 
     /**
      * Register for events.
@@ -29,9 +30,10 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
      * @param Doku_Event_Handler $controller
      *          DokuWiki's event controller object. Also available as global $EVENT_HANDLER
      */
-    public function register(Doku_Event_Handler $controller) {
+    final public function register(Doku_Event_Handler $controller): void
+    {
         $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'handleMetaheaderOutput');
-        if($this->getConf('toolbar_icon')) {
+        if ($this->getConf('toolbar_icon')) {
             $controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'insertButton', array());
         }
         $controller->register_hook('PLUGIN_POPULARITY_DATA_SETUP', 'AFTER', $this, 'popularity');
@@ -40,38 +42,39 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
     /**
      * Retrieve metadata and add to the head of the page using appropriate meta tags.
      *
-     * @param Doku_Event   $event
+     * @param Doku_Event $event
      *          the DokuWiki event. $event->data is a two-dimensional
      *          array of all meta headers. The keys are meta, link and script.
      *
      * @see https://www.dokuwiki.org/devel:event:tpl_metaheader_output
      */
-    public function handleMetaheaderOutput(Doku_Event $event) {
+    final public function handleMetaheaderOutput(Doku_Event $event): void
+    {
         global $ID;
         $title     = p_get_metadata($ID, 'title', METADATA_RENDER_USING_SIMPLE_CACHE);
         $geotags   = p_get_metadata($ID, 'geo', METADATA_RENDER_USING_SIMPLE_CACHE) ?? array();
-        $region    = $geotags ['region'] ?? NULL;
-        $lat       = $geotags ['lat'] ?? NULL;
-        $lon       = $geotags ['lon'] ?? NULL;
-        $alt       = $geotags ['alt'] ?? NULL;
-        $country   = $geotags ['country'] ?? NULL;
-        $placename = $geotags ['placename'] ?? NULL;
-        $geohash   = $geotags ['geohash'] ?? NULL;
+        $region    = $geotags ['region'] ?? null;
+        $lat       = $geotags ['lat'] ?? null;
+        $lon       = $geotags ['lon'] ?? null;
+        $alt       = $geotags ['alt'] ?? null;
+        $country   = $geotags ['country'] ?? null;
+        $placename = $geotags ['placename'] ?? null;
+        $geohash   = $geotags ['geohash'] ?? null;
 
-        if(!empty ($region)) {
+        if (!empty ($region)) {
             $event->data ['meta'] [] = array(
                 'name'    => 'geo.region',
                 'content' => $region
             );
         }
-        if(!empty ($placename)) {
+        if (!empty ($placename)) {
             $event->data ['meta'] [] = array(
                 'name'    => 'geo.placename',
                 'content' => $placename
             );
         }
-        if(!(empty ($lat) && empty ($lon))) {
-            if(!empty ($alt)) {
+        if (!(empty ($lat) && empty ($lon))) {
+            if (!empty ($alt)) {
                 $event->data ['meta'] [] = array(
                     'name'    => 'geo.position',
                     'content' => $lat . ';' . $lon . ';' . $alt
@@ -83,24 +86,24 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
                 );
             }
         }
-        if(!empty ($country)) {
+        if (!empty ($country)) {
             $event->data ['meta'] [] = array(
                 'name'    => 'geo.country',
                 'content' => $country
             );
         }
-        if(!(empty ($lat) && empty ($lon))) {
+        if (!(empty ($lat) && empty ($lon))) {
             $event->data ['meta'] [] = array(
                 'name'    => "ICBM",
                 'content' => $lat . ', ' . $lon
             );
             // icbm is generally useless without a DC.title,
             // so we copy that from title unless it's empty...
-            if(!(empty ($title))) {
+            if (!(empty ($title))) {
                 /*
                  * don't specify the DC namespace as this is incomplete; it should be done at the
                  * template level as it also needs a 'profile' attribute on the head/container,
-                 * see: http://dublincore.org/documents/dc-html/#sect-3.1.1
+                 * see: https://dublincore.org/documents/dc-html/#sect-3.1.1
                  * $event->data ['link'] [] = array ('rel' => 'schema.DC',
                  * 'href' => 'http://purl.org/dc/elements/1.1/');
                  */
@@ -110,7 +113,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
                 );
             }
         }
-        if(!empty ($geohash)) {
+        if (!empty ($geohash)) {
             $event->data ['meta'] [] = array(
                 'name'    => 'geo.geohash',
                 'content' => $geohash
@@ -124,7 +127,8 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
      * @param Doku_Event $event
      *          the DokuWiki event
      */
-    public function insertButton(Doku_Event $event, $param) {
+    final public function insertButton(Doku_Event $event, array $param): void
+    {
         $event->data [] = array(
             'type'   => 'format',
             'title'  => $this->getLang('toolbar_desc'),
@@ -141,7 +145,8 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin {
      * @param Doku_Event $event
      *          the DokuWiki event
      */
-    final public function popularity(Doku_Event $event): void {
+    final public function popularity(Doku_Event $event): void
+    {
         global $updateVersion;
         $plugin_info                              = $this->getInfo();
         $event->data['geotag']['version']         = $plugin_info['date'];
