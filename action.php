@@ -147,10 +147,10 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin
      */
     final public function popularity(Doku_Event $event): void
     {
-        global $updateVersion;
+        $versionInfo                              = getVersionData();
         $plugin_info                              = $this->getInfo();
         $event->data['geotag']['version']         = $plugin_info['date'];
-        $event->data['geotag']['dwversion']       = $updateVersion;
-        $event->data['geotag']['combinedversion'] = $updateVersion . '_' . $plugin_info['date'];
+        $event->data['geotag']['dwversion']       = $versionInfo['date'];
+        $event->data['geotag']['combinedversion'] = $versionInfo['date'] . '_' . $plugin_info['date'];
     }
 }
