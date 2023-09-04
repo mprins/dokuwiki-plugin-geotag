@@ -51,50 +51,50 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin
     final public function handleMetaheaderOutput(Doku_Event $event): void
     {
         global $ID;
-        $title     = p_get_metadata($ID, 'title', METADATA_RENDER_USING_SIMPLE_CACHE);
-        $geotags   = p_get_metadata($ID, 'geo', METADATA_RENDER_USING_SIMPLE_CACHE) ?? array();
-        $region    = $geotags ['region'] ?? null;
-        $lat       = $geotags ['lat'] ?? null;
-        $lon       = $geotags ['lon'] ?? null;
-        $alt       = $geotags ['alt'] ?? null;
-        $country   = $geotags ['country'] ?? null;
+        $title = p_get_metadata($ID, 'title', METADATA_RENDER_USING_SIMPLE_CACHE);
+        $geotags = p_get_metadata($ID, 'geo', METADATA_RENDER_USING_SIMPLE_CACHE) ?? array();
+        $region = $geotags ['region'] ?? null;
+        $lat = $geotags ['lat'] ?? null;
+        $lon = $geotags ['lon'] ?? null;
+        $alt = $geotags ['alt'] ?? null;
+        $country = $geotags ['country'] ?? null;
         $placename = $geotags ['placename'] ?? null;
-        $geohash   = $geotags ['geohash'] ?? null;
+        $geohash = $geotags ['geohash'] ?? null;
 
         if (!empty ($region)) {
             $event->data ['meta'] [] = array(
-                'name'    => 'geo.region',
+                'name' => 'geo.region',
                 'content' => $region
             );
         }
         if (!empty ($placename)) {
             $event->data ['meta'] [] = array(
-                'name'    => 'geo.placename',
+                'name' => 'geo.placename',
                 'content' => $placename
             );
         }
         if (!(empty ($lat) && empty ($lon))) {
             if (!empty ($alt)) {
                 $event->data ['meta'] [] = array(
-                    'name'    => 'geo.position',
+                    'name' => 'geo.position',
                     'content' => $lat . ';' . $lon . ';' . $alt
                 );
             } else {
                 $event->data ['meta'] [] = array(
-                    'name'    => 'geo.position',
+                    'name' => 'geo.position',
                     'content' => $lat . ';' . $lon
                 );
             }
         }
         if (!empty ($country)) {
             $event->data ['meta'] [] = array(
-                'name'    => 'geo.country',
+                'name' => 'geo.country',
                 'content' => $country
             );
         }
         if (!(empty ($lat) && empty ($lon))) {
             $event->data ['meta'] [] = array(
-                'name'    => "ICBM",
+                'name' => "ICBM",
                 'content' => $lat . ', ' . $lon
             );
             // icbm is generally useless without a DC.title,
@@ -108,14 +108,14 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin
                  * 'href' => 'http://purl.org/dc/elements/1.1/');
                  */
                 $event->data ['meta'] [] = array(
-                    'name'    => "DC.title",
+                    'name' => "DC.title",
                     'content' => $title
                 );
             }
         }
         if (!empty ($geohash)) {
             $event->data ['meta'] [] = array(
-                'name'    => 'geo.geohash',
+                'name' => 'geo.geohash',
                 'content' => $geohash
             );
         }
@@ -130,12 +130,12 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin
     final public function insertButton(Doku_Event $event, array $param): void
     {
         $event->data [] = array(
-            'type'   => 'format',
-            'title'  => $this->getLang('toolbar_desc'),
-            'icon'   => '../../plugins/geotag/images/geotag.png',
-            'open'   => '{{geotag>lat:',
+            'type' => 'format',
+            'title' => $this->getLang('toolbar_desc'),
+            'icon' => '../../plugins/geotag/images/geotag.png',
+            'open' => '{{geotag>lat:',
             'sample' => '52.2345',
-            'close'  => ', lon:7.521, alt: , placename: , country: , region: }}'
+            'close' => ', lon:7.521, alt: , placename: , country: , region: }}'
         );
     }
 
