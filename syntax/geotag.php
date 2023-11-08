@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2011 Mark C. Prins <mprins@users.sf.net>
  *
@@ -14,7 +15,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
+use dokuwiki\Extension\SyntaxPlugin;
 use geoPHP\Geometry\Point;
 
 /**
@@ -25,7 +26,7 @@ use geoPHP\Geometry\Point;
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
  */
-class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin
+class syntax_plugin_geotag_geotag extends SyntaxPlugin
 {
     /**
      *
@@ -98,17 +99,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin
             $style = '';
         }
 
-        $data = array(
-            hsc(trim(substr($lat [0], 4))),
-            hsc(trim(substr($lon [0], 4))),
-            hsc(trim(substr(($alt[0] ?? ''), 4))),
-            $this->geohash(substr($lat [0], 4), substr($lon [0], 4)),
-            hsc(trim(substr(($region[0] ?? ''), 7))),
-            hsc(trim(substr(($placename[0] ?? ''), 10))),
-            hsc(trim(substr(($country [0] ?? ''), 8))),
-            hsc($showlocation),
-            $style
-        );
+        $data = [hsc(trim(substr($lat [0], 4))), hsc(trim(substr($lon [0], 4))), hsc(trim(substr(($alt[0] ?? ''), 4))), $this->geohash(substr($lat [0], 4), substr($lon [0], 4)), hsc(trim(substr(($region[0] ?? ''), 7))), hsc(trim(substr(($placename[0] ?? ''), 10))), hsc(trim(substr(($country [0] ?? ''), 8))), hsc($showlocation), $style];
         return $data;
     }
 
@@ -120,7 +111,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin
      */
     private function geohash(float $lat, float $lon)
     {
-        if (!$geophp = plugin_load('helper', 'geophp')) {
+        if (($geophp = plugin_load('helper', 'geophp')) === null) {
             return "";
         }
 
@@ -154,14 +145,11 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin
             $searchPre  = '';
             $searchPost = '';
             if ($this->getConf('geotag_showsearch')) {
-                if ($spHelper = plugin_load('helper', 'spatialhelper_search')) {
+                if (($spHelper = plugin_load('helper', 'spatialhelper_search')) !== null) {
                     $title      = $this->getLang('findnearby') . '&nbsp;' . $placename;
                     $url        = wl(
-                        getID(), array(
-                            'do'  => 'findnearby',
-                            'lat' => $ddlat,
-                            'lon' => $ddlon
-                        )
+                        getID(),
+                        ['do'  => 'findnearby', 'lat' => $ddlat, 'lon' => $ddlon]
                     );
                     $searchPre  = '<a href="' . $url . '" title="' . $title . '">';
                     $searchPost = '<span class="a11y">' . $title . '</span></a>';
@@ -178,7 +166,7 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin
                 . $lat . '</span>;';
             $renderer->doc .= '<span class="p-longitude longitude" itemprop="longitude" data-longitude="' . $ddlon
                 . '">' . $lon . '</span>';
-            if (!empty ($alt)) {
+            if (!empty($alt)) {
                 $renderer->doc .= ', <span class="p-altitude altitude" itemprop="elevation" data-altitude="' . $alt
                     . '">' . $alt . 'm</span>';
             }
@@ -192,12 +180,12 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin
             $renderer->meta ['geo'] ['region']    = $region;
             $renderer->meta ['geo'] ['country']   = $country;
             $renderer->meta ['geo'] ['geohash']   = $geohash;
-            if (!empty ($alt)) {
+            if (!empty($alt)) {
                 $renderer->meta ['geo'] ['alt'] = $alt;
             }
             return true;
         } elseif ($format === 'odt') {
-            if (!empty ($alt)) {
+            if (!empty($alt)) {
                 $alt = ', ' . $alt . 'm';
             }
             $renderer->p_open();
@@ -217,7 +205,6 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin
      * convert latitude in decimal degrees to DMS+hemisphere.
      *
      * @param float $decimaldegrees
-     * @return string
      * @todo move this into a shared library
      */
     private function convertLat(float $decimaldegrees): string
@@ -252,7 +239,6 @@ class syntax_plugin_geotag_geotag extends DokuWiki_Syntax_Plugin
      * convert longitude in decimal degrees to DMS+hemisphere.
      *
      * @param float $decimaldegrees
-     * @return string
      * @todo move this into a shared library
      */
     private function convertLon(float $decimaldegrees): string

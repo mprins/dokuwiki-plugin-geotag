@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2011 Mark C. Prins <mprins@users.sf.net>
  *
@@ -21,6 +22,7 @@
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
  */
+
 $meta ['geotag_location_prefix']            = array('string');
 $meta ['geotag_showlocation']               = array('onoff');
 $meta ['geotag_hide']                       = array('onoff');

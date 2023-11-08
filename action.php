@@ -1,4 +1,9 @@
 <?php
+
+use dokuwiki\Extension\ActionPlugin;
+use dokuwiki\Extension\EventHandler;
+use dokuwiki\Extension\Event;
+
 /*
  * Copyright (c) 2011 Mark C. Prins <mprins@users.sf.net>
  *
@@ -14,27 +19,25 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
 /**
  * DokuWiki Plugin geotag (Action Component).
  *
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
  */
-class action_plugin_geotag extends DokuWiki_Action_Plugin
+class action_plugin_geotag extends ActionPlugin
 {
-
     /**
      * Register for events.
      *
      * @param Doku_Event_Handler $controller
      *          DokuWiki's event controller object. Also available as global $EVENT_HANDLER
      */
-    final public function register(Doku_Event_Handler $controller): void
+    final public function register(EventHandler $controller): void
     {
         $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'handleMetaheaderOutput');
         if ($this->getConf('toolbar_icon')) {
-            $controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'insertButton', array());
+            $controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'insertButton', []);
         }
         $controller->register_hook('PLUGIN_POPULARITY_DATA_SETUP', 'AFTER', $this, 'popularity');
     }
@@ -48,11 +51,11 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin
      *
      * @see https://www.dokuwiki.org/devel:event:tpl_metaheader_output
      */
-    final public function handleMetaheaderOutput(Doku_Event $event): void
+    final public function handleMetaheaderOutput(Event $event): void
     {
         global $ID;
         $title = p_get_metadata($ID, 'title', METADATA_RENDER_USING_SIMPLE_CACHE);
-        $geotags = p_get_metadata($ID, 'geo', METADATA_RENDER_USING_SIMPLE_CACHE) ?? array();
+        $geotags = p_get_metadata($ID, 'geo', METADATA_RENDER_USING_SIMPLE_CACHE) ?? [];
         $region = $geotags ['region'] ?? null;
         $lat = $geotags ['lat'] ?? null;
         $lon = $geotags ['lon'] ?? null;
@@ -61,45 +64,27 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin
         $placename = $geotags ['placename'] ?? null;
         $geohash = $geotags ['geohash'] ?? null;
 
-        if (!empty ($region)) {
-            $event->data ['meta'] [] = array(
-                'name' => 'geo.region',
-                'content' => $region
-            );
+        if (!empty($region)) {
+            $event->data ['meta'] [] = ['name' => 'geo.region', 'content' => $region];
         }
-        if (!empty ($placename)) {
-            $event->data ['meta'] [] = array(
-                'name' => 'geo.placename',
-                'content' => $placename
-            );
+        if (!empty($placename)) {
+            $event->data ['meta'] [] = ['name' => 'geo.placename', 'content' => $placename];
         }
-        if (!(empty ($lat) && empty ($lon))) {
-            if (!empty ($alt)) {
-                $event->data ['meta'] [] = array(
-                    'name' => 'geo.position',
-                    'content' => $lat . ';' . $lon . ';' . $alt
-                );
+        if (!(empty($lat) && empty($lon))) {
+            if (!empty($alt)) {
+                $event->data ['meta'] [] = ['name' => 'geo.position', 'content' => $lat . ';' . $lon . ';' . $alt];
             } else {
-                $event->data ['meta'] [] = array(
-                    'name' => 'geo.position',
-                    'content' => $lat . ';' . $lon
-                );
+                $event->data ['meta'] [] = ['name' => 'geo.position', 'content' => $lat . ';' . $lon];
             }
         }
-        if (!empty ($country)) {
-            $event->data ['meta'] [] = array(
-                'name' => 'geo.country',
-                'content' => $country
-            );
+        if (!empty($country)) {
+            $event->data ['meta'] [] = ['name' => 'geo.country', 'content' => $country];
         }
-        if (!(empty ($lat) && empty ($lon))) {
-            $event->data ['meta'] [] = array(
-                'name' => "ICBM",
-                'content' => $lat . ', ' . $lon
-            );
+        if (!(empty($lat) && empty($lon))) {
+            $event->data ['meta'] [] = ['name' => "ICBM", 'content' => $lat . ', ' . $lon];
             // icbm is generally useless without a DC.title,
             // so we copy that from title unless it's empty...
-            if (!(empty ($title))) {
+            if (!(empty($title))) {
                 /*
                  * don't specify the DC namespace as this is incomplete; it should be done at the
                  * template level as it also needs a 'profile' attribute on the head/container,
@@ -107,17 +92,11 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin
                  * $event->data ['link'] [] = array ('rel' => 'schema.DC',
                  * 'href' => 'http://purl.org/dc/elements/1.1/');
                  */
-                $event->data ['meta'] [] = array(
-                    'name' => "DC.title",
-                    'content' => $title
-                );
+                $event->data ['meta'] [] = ['name' => "DC.title", 'content' => $title];
             }
         }
-        if (!empty ($geohash)) {
-            $event->data ['meta'] [] = array(
-                'name' => 'geo.geohash',
-                'content' => $geohash
-            );
+        if (!empty($geohash)) {
+            $event->data ['meta'] [] = ['name' => 'geo.geohash', 'content' => $geohash];
         }
     }
 
@@ -127,16 +106,9 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin
      * @param Doku_Event $event
      *          the DokuWiki event
      */
-    final public function insertButton(Doku_Event $event, array $param): void
+    final public function insertButton(Event $event, array $param): void
     {
-        $event->data [] = array(
-            'type' => 'format',
-            'title' => $this->getLang('toolbar_desc'),
-            'icon' => '../../plugins/geotag/images/geotag.png',
-            'open' => '{{geotag>lat:',
-            'sample' => '52.2345',
-            'close' => ', lon:7.521, alt: , placename: , country: , region: }}'
-        );
+        $event->data [] = ['type' => 'format', 'title' => $this->getLang('toolbar_desc'), 'icon' => '../../plugins/geotag/images/geotag.png', 'open' => '{{geotag>lat:', 'sample' => '52.2345', 'close' => ', lon:7.521, alt: , placename: , country: , region: }}'];
     }
 
     /**
@@ -145,7 +117,7 @@ class action_plugin_geotag extends DokuWiki_Action_Plugin
      * @param Doku_Event $event
      *          the DokuWiki event
      */
-    final public function popularity(Doku_Event $event): void
+    final public function popularity(Event $event): void
     {
         $versionInfo = getVersionData();
         $plugin_info = $this->getInfo();
