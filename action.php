@@ -30,7 +30,7 @@ class action_plugin_geotag extends ActionPlugin
     /**
      * Register for events.
      *
-     * @param Doku_Event_Handler $controller
+     * @param EventHandler $controller
      *          DokuWiki's event controller object. Also available as global $EVENT_HANDLER
      */
     final public function register(EventHandler $controller): void
@@ -45,7 +45,7 @@ class action_plugin_geotag extends ActionPlugin
     /**
      * Retrieve metadata and add to the head of the page using appropriate meta tags.
      *
-     * @param Doku_Event $event
+     * @param Event $event
      *          the DokuWiki event. $event->data is a two-dimensional
      *          array of all meta headers. The keys are meta, link and script.
      *
@@ -103,7 +103,7 @@ class action_plugin_geotag extends ActionPlugin
     /**
      * Inserts the toolbar button.
      *
-     * @param Doku_Event $event
+     * @param Event $event
      *          the DokuWiki event
      */
     final public function insertButton(Event $event, array $param): void
@@ -114,7 +114,7 @@ class action_plugin_geotag extends ActionPlugin
     /**
      * Add geotag popularity data.
      *
-     * @param Doku_Event $event
+     * @param Event $event
      *          the DokuWiki event
      */
     final public function popularity(Event $event): void
