@@ -21,7 +21,7 @@
  * @group plugin_geotag
  * @group plugins
  */
-class general_plugin_geotag_test extends DokuWikiTest
+class geotag_plugin_test extends DokuWikiTest
 {
 
     protected $pluginsEnabled = array('geotag');
