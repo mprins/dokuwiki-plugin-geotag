@@ -72,9 +72,9 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
     {
         $tags = trim(substr($match, 9, -2));
         // parse geotag content
-        preg_match("(lat[:|=]-?\d*\.\d*)", $tags, $lat);
-        preg_match("(lon[:|=]-?\d*\.\d*)", $tags, $lon);
-        preg_match("(alt[:|=]-?\d*\.?\d*)", $tags, $alt);
+        $lat = $this->parseNumericParameter("lat", $tags);
+        $lon = $this->parseNumericParameter("lon", $tags);
+        $alt = $this->parseNumericParameter("alt", $tags);
         preg_match("/(region[:|=][\p{L}\s\w'-]*)/u", $tags, $region);
         preg_match("/(placename[:|=][\p{L}\s\w'-]*)/u", $tags, $placename);
         preg_match("/(country[:|=][\p{L}\s\w'-]*)/u", $tags, $country);
@@ -98,9 +98,24 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
         } elseif (array_key_exists(0, $hide) && trim($hide [0]) === 'unhide') {
             $style = '';
         }
-
-        $data = [hsc(trim(substr($lat [0], 4))), hsc(trim(substr($lon [0], 4))), hsc(trim(substr(($alt[0] ?? ''), 4))), $this->geohash(substr($lat [0], 4), substr($lon [0], 4)), hsc(trim(substr(($region[0] ?? ''), 7))), hsc(trim(substr(($placename[0] ?? ''), 10))), hsc(trim(substr(($country [0] ?? ''), 8))), hsc($showlocation), $style];
+        $data = [hsc($lat), hsc($lon), hsc($alt), $this->geohash($lat, $lon), hsc(trim(substr(($region[0] ?? ''), 7))), hsc(trim(substr(($placename[0] ?? >
         return $data;
+    }
+
+    /**
+    parses numeric parameter with given name
+
+    @param string $name name of the parameter
+    @param string $input text to consume
+    @return string parameter values as numeric string or empty string if nothing is found
+    */
+    private function parseNumericParameter(string $name, string $input):string{
+        $output = '';
+        $pattern = "/". $name . "\s*[:=]\s*(-?\d*\.?\d*)/";
+        if (preg_match($pattern, $input, $matches)) {
+            $output = $matches[1];
+        }
+        return $output;
     }
 
     /**
