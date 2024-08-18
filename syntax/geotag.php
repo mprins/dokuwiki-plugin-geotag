@@ -98,7 +98,7 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
         } elseif (array_key_exists(0, $hide) && trim($hide [0]) === 'unhide') {
             $style = '';
         }
-        $data = [hsc($lat), hsc($lon), hsc($alt), $this->geohash($lat, $lon), hsc(trim(substr(($region[0] ?? ''), 7))), hsc(trim(substr(($placename[0] ?? >
+        $data = [hsc($lat), hsc($lon), hsc($alt), $this->geohash($lat, $lon), hsc(trim(substr(($region[0] ?? ''), 7))), hsc(trim(substr(($placename[0] ?? ''), 10))), hsc(trim(substr(($country [0] ?? ''), 8))), hsc($showlocation), $style];
         return $data;
     }
 
