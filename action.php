@@ -1,8 +1,8 @@
 <?php
 
 use dokuwiki\Extension\ActionPlugin;
-use dokuwiki\Extension\EventHandler;
 use dokuwiki\Extension\Event;
+use dokuwiki\Extension\EventHandler;
 
 /*
  * Copyright (c) 2011 Mark C. Prins <mprins@users.sf.net>
@@ -19,6 +19,7 @@ use dokuwiki\Extension\Event;
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 /**
  * DokuWiki Plugin geotag (Action Component).
  *
@@ -108,7 +109,13 @@ class action_plugin_geotag extends ActionPlugin
      */
     final public function insertButton(Event $event, array $param): void
     {
-        $event->data [] = ['type' => 'format', 'title' => $this->getLang('toolbar_desc'), 'icon' => '../../plugins/geotag/images/geotag.png', 'open' => '{{geotag>lat:', 'sample' => '52.2345', 'close' => ', lon:7.521, alt: , placename: , country: , region: }}'];
+        $event->data [] = [
+            'type' => 'format',
+            'title' => $this->getLang('toolbar_desc'),
+            'icon' => '../../plugins/geotag/images/geotag.png',
+            'open' => '{{geotag>lat:', 'sample' => '52.2345',
+            'close' => ', lon:7.521, alt: , placename: , country: , region: }}'
+        ];
     }
 
     /**
