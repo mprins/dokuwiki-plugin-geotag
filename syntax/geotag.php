@@ -15,6 +15,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 use dokuwiki\Extension\SyntaxPlugin;
 use geoPHP\Geometry\Point;
 
@@ -98,20 +99,29 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
         } elseif (array_key_exists(0, $hide) && trim($hide [0]) === 'unhide') {
             $style = '';
         }
-        $data = [hsc($lat), hsc($lon), hsc($alt), $this->geohash($lat, $lon), hsc(trim(substr(($region[0] ?? ''), 7))), hsc(trim(substr(($placename[0] ?? ''), 10))), hsc(trim(substr(($country [0] ?? ''), 8))), hsc($showlocation), $style];
-        return $data;
+        return [
+            hsc($lat),
+            hsc($lon),
+            hsc($alt),
+            $this->geohash($lat, $lon),
+            hsc(trim(substr(($region[0] ?? ''), 7))),
+            hsc(trim(substr(($placename[0] ?? ''), 10))),
+            hsc(trim(substr(($country [0] ?? ''), 8))),
+            hsc($showlocation), $style
+        ];
     }
 
     /**
-    parses numeric parameter with given name
-
-    @param string $name name of the parameter
-    @param string $input text to consume
-    @return string parameter values as numeric string or empty string if nothing is found
-    */
-    private function parseNumericParameter(string $name, string $input):string{
+     * parses numeric parameter with given name
+     *
+     * @param string $name name of the parameter
+     * @param string $input text to consume
+     * @return string parameter values as numeric string or empty string if nothing is found
+     */
+    private function parseNumericParameter(string $name, string $input): string
+    {
         $output = '';
-        $pattern = "/". $name . "\s*[:=]\s*(-?\d*\.?\d*)/";
+        $pattern = "/" . $name . "\s*[:=]\s*(-?\d*\.?\d*)/";
         if (preg_match($pattern, $input, $matches)) {
             $output = $matches[1];
         }
@@ -123,8 +133,10 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
      *
      * @param float $lat
      * @param float $lon
+     * @return mixed|string
+     * @throws Exception
      */
-    private function geohash(float $lat, float $lon)
+    private function geohash(float $lat, float $lon): mixed|string
     {
         if (($geophp = plugin_load('helper', 'geophp')) === null) {
             return "";
@@ -157,16 +169,16 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
             if ($this->getConf('geotag_prevent_microformat_render')) {
                 return true;
             }
-            $searchPre  = '';
+            $searchPre = '';
             $searchPost = '';
             if ($this->getConf('geotag_showsearch')) {
                 if (($spHelper = plugin_load('helper', 'spatialhelper_search')) !== null) {
-                    $title      = $this->getLang('findnearby') . '&nbsp;' . $placename;
-                    $url        = wl(
+                    $title = $this->getLang('findnearby') . '&nbsp;' . $placename;
+                    $url = wl(
                         getID(),
-                        ['do'  => 'findnearby', 'lat' => $ddlat, 'lon' => $ddlon]
+                        ['do' => 'findnearby', 'lat' => $ddlat, 'lon' => $ddlon]
                     );
-                    $searchPre  = '<a href="' . $url . '" title="' . $title . '">';
+                    $searchPre = '<a href="' . $url . '" title="' . $title . '">';
                     $searchPost = '<span class="a11y">' . $title . '</span></a>';
                 }
             }
@@ -189,12 +201,12 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
             return true;
         } elseif ($format === 'metadata') {
             // render metadata (our action plugin will put it in the page head)
-            $renderer->meta ['geo'] ['lat']       = $ddlat;
-            $renderer->meta ['geo'] ['lon']       = $ddlon;
+            $renderer->meta ['geo'] ['lat'] = $ddlat;
+            $renderer->meta ['geo'] ['lon'] = $ddlon;
             $renderer->meta ['geo'] ['placename'] = $placename;
-            $renderer->meta ['geo'] ['region']    = $region;
-            $renderer->meta ['geo'] ['country']   = $country;
-            $renderer->meta ['geo'] ['geohash']   = $geohash;
+            $renderer->meta ['geo'] ['region'] = $region;
+            $renderer->meta ['geo'] ['country'] = $country;
+            $renderer->meta ['geo'] ['geohash'] = $geohash;
             if (!empty($alt)) {
                 $renderer->meta ['geo'] ['alt'] = $alt;
             }
@@ -220,6 +232,7 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
      * convert latitude in decimal degrees to DMS+hemisphere.
      *
      * @param float $decimaldegrees
+     * @return string
      * @todo move this into a shared library
      */
     private function convertLat(float $decimaldegrees): string
@@ -242,11 +255,11 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
      */
     private function convertDDtoDMS(float $decimaldegrees): string
     {
-        $dms  = floor($decimaldegrees);
+        $dms = floor($decimaldegrees);
         $secs = ($decimaldegrees - $dms) * 3600;
-        $min  = floor($secs / 60);
-        $sec  = round($secs - ($min * 60), 3);
-        $dms  .= 'º' . $min . '\'' . $sec . '"';
+        $min = floor($secs / 60);
+        $sec = round($secs - ($min * 60), 3);
+        $dms .= 'º' . $min . '\'' . $sec . '"';
         return $dms;
     }
 
