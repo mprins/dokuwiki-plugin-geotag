@@ -136,7 +136,7 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
      * @return mixed|string
      * @throws Exception
      */
-    private function geohash(float $lat, float $lon): mixed|string
+    private function geohash(float $lat, float $lon)
     {
         if (($geophp = plugin_load('helper', 'geophp')) === null) {
             return "";
