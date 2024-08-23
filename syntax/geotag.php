@@ -133,12 +133,12 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
      *
      * @param float $lat
      * @param float $lon
-     * @return mixed|string
+     * @return string
      * @throws Exception
      */
-    private function geohash(float $lat, float $lon): mixed|string
+    private function geohash(float $lat, float $lon): string
     {
-        if (($geophp = plugin_load('helper', 'geophp')) === null) {
+        if ((plugin_load('helper', 'geophp')) === null) {
             return "";
         }
 
