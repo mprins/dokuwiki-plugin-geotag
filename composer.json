@@ -18,5 +18,11 @@
     "platform": {
       "php": "8.0"
     }
-  }
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/mprins"
+    }
+  ]
 }
