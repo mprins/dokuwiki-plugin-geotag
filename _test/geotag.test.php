@@ -15,6 +15,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+use dokuwiki\MailUtils;
+
 /**
  * General tests for the geotag plugin.
  *
@@ -45,9 +47,9 @@ class geotag_plugin_test extends DokuWikiTest
         $this->assertArrayHasKey('url', $info);
 
         $this->assertEquals('geotag', $info['base']);
-        $this->assertRegExp('/^https?:\/\//', $info['url']);
-        $this->assertTrue(mail_isvalid($info['email']));
-        $this->assertRegExp('/^\d\d\d\d-\d\d-\d\d$/', $info['date']);
+        $this->assertMatchesRegularExpression('/^https?:\/\//', $info['url']);
+        $this->assertTrue(MailUtils::isValid($info['email']));
+        $this->assertMatchesRegularExpression('/^\d\d\d\d-\d\d-\d\d$/', $info['date']);
         $this->assertTrue(false !== strtotime($info['date']));
     }
 

@@ -26,6 +26,8 @@ use geoPHP\Geometry\Point;
  *
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
+ *
+ * @phpcs:disable Squiz.Classes.ValidClassName.NotPascalCase
  */
 class syntax_plugin_geotag_geotag extends SyntaxPlugin
 {
@@ -67,6 +69,7 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
 
     /**
      *
+     * @throws Exception if calculating the geohash fails
      * @see DokuWiki_Syntax_Plugin::handle()
      */
     final public function handle($match, $state, $pos, Doku_Handler $handler): array
@@ -172,7 +175,7 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
             $searchPre = '';
             $searchPost = '';
             if ($this->getConf('geotag_showsearch')) {
-                if (($spHelper = plugin_load('helper', 'spatialhelper_search')) !== null) {
+                if ((plugin_load('helper', 'spatialhelper_search')) !== null) {
                     $title = $this->getLang('findnearby') . '&nbsp;' . $placename;
                     $url = wl(
                         getID(),
@@ -237,7 +240,7 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
      */
     private function convertLat(float $decimaldegrees): string
     {
-        if (strpos($decimaldegrees, '-') !== false) {
+        if (str_contains($decimaldegrees, '-')) {
             $latPos = "S";
         } else {
             $latPos = "N";
@@ -267,11 +270,12 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
      * convert longitude in decimal degrees to DMS+hemisphere.
      *
      * @param float $decimaldegrees
+     * @return string
      * @todo move this into a shared library
      */
     private function convertLon(float $decimaldegrees): string
     {
-        if (strpos($decimaldegrees, '-') !== false) {
+        if (str_contains($decimaldegrees, '-')) {
             $lonPos = "W";
         } else {
             $lonPos = "E";

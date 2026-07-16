@@ -25,6 +25,8 @@ use dokuwiki\Extension\EventHandler;
  *
  * @license BSD license
  * @author  Mark C. Prins <mprins@users.sf.net>
+ *
+ * @phpcs:disable Squiz.Classes.ValidClassName.NotPascalCase
  */
 class action_plugin_geotag extends ActionPlugin
 {
@@ -107,7 +109,7 @@ class action_plugin_geotag extends ActionPlugin
      * @param Event $event
      *          the DokuWiki event
      */
-    final public function insertButton(Event $event, array $param): void
+    final public function insertButton(Event $event): void
     {
         $event->data [] = [
             'type' => 'format',
