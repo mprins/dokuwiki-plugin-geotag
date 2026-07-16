@@ -15,6 +15,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+use dokuwiki\Search\Indexer;
+
 /**
  * Syntax tests for the geotag plugin.
  *
@@ -23,7 +25,6 @@
  */
 class syntax_plugin_geotag_test extends DokuWikiTest
 {
-
     protected $pluginsEnabled = array('geotag');
 
     /**
@@ -49,17 +50,18 @@ class syntax_plugin_geotag_test extends DokuWikiTest
         $data = array();
         search($data, $conf['datadir'], 'search_allpages', array('skipacl' => true));
 
-        $verbose = false;
-        $force   = false;
         foreach ($data as $val) {
-            idx_addPage($val['id'], $verbose, $force);
+            (new Indexer())->addPage($val['id']);
         }
     }
 
+    /**
+     * @throws Exception if any
+     */
     final public function test_geotag(): void
     {
         $request  = new TestRequest();
-        $response = $request->get(array('id' => 'minimalgeotag'), '/doku.php');
+        $response = $request->get(array('id' => 'minimalgeotag'));
 
         $this->assertEquals(
             'minimalgeotag',
@@ -80,10 +82,13 @@ class syntax_plugin_geotag_test extends DokuWikiTest
         );
     }
 
+    /**
+     * @throws Exception if any
+     */
     final public function test_fullgeotag(): void
     {
         $request  = new TestRequest();
-        $response = $request->get(array('id' => 'fullgeotag'), '/doku.php');
+        $response = $request->get(array('id' => 'fullgeotag'));
 
         $this->assertEquals(
             'fullgeotag',
@@ -104,10 +109,13 @@ class syntax_plugin_geotag_test extends DokuWikiTest
         );
     }
 
+    /**
+     * @throws Exception if any
+     */
     final public function test_fullgeotagnegativecoords(): void
     {
         $request  = new TestRequest();
-        $response = $request->get(array('id' => 'fullgeotagnegativecoords'), '/doku.php');
+        $response = $request->get(array('id' => 'fullgeotagnegativecoords'));
 
         $this->assertEquals(
             'fullgeotagnegativecoords',
@@ -128,10 +136,13 @@ class syntax_plugin_geotag_test extends DokuWikiTest
         );
     }
 
+    /**
+     * @throws Exception if any
+     */
     final public function test_nogeotag(): void
     {
         $request  = new TestRequest();
-        $response = $request->get(array('id' => 'nogeotag'), '/doku.php');
+        $response = $request->get(array('id' => 'nogeotag'));
 
         $this->assertEquals(
             'nogeotag',

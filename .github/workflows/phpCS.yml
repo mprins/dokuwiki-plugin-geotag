@@ -1,22 +1,23 @@
 name: PHP Code Style
 
-on: [ push, workflow_dispatch, pull_request ]
+on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
   phpcs:
     name: PHP CodeSniffer
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.3'
+          coverage: none
           tools: cs2pr, phpcs
 
       - name: retrieve script
-        run: wget https://raw.github.com/splitbrain/dokuwiki-travis/master/travis.sh
+        run: wget https://raw.githubusercontent.com/splitbrain/dokuwiki-travis/master/travis.sh
 
       - name: Install DokuWiki
         env:
@@ -24,11 +25,10 @@ jobs:
           DOKUWIKI: master
         run: sh travis.sh
 
-      #            - name: run PHP codesniffer
-      #              run: php phpcs -v --runtime-set ignore_warnings_on_exit true --standard=_test/phpcs.xml lib/plugins/geotag
       - name: run PHP codesniffer
+        continue-on-error: true
         run: phpcs -v --standard=_test/phpcs_MigrationAdjustments.xml --report-full --report-checkstyle=./phpcs-report.xml lib/plugins/geotag
+      # run: php phpcs -v --runtime-set ignore_warnings_on_exit true --standard=_test/phpcs.xml lib/plugins/geotag
 
       - name: Annotate PR
-        if: ${{ always() && steps.phpcs.outcome == 'failure' }}
         run: cs2pr --notices-as-warnings --colorize ./phpcs-report.xml
