@@ -15,7 +15,7 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-
+use dokuwiki\Parsing\Handler;
 use dokuwiki\Extension\SyntaxPlugin;
 use geoPHP\Geometry\Point;
 
@@ -72,7 +72,7 @@ class syntax_plugin_geotag_geotag extends SyntaxPlugin
      * @throws Exception if calculating the geohash fails
      * @see DokuWiki_Syntax_Plugin::handle()
      */
-    final public function handle($match, $state, $pos, Doku_Handler $handler): array
+    final public function handle($match, $state, $pos, Handler $handler): array
     {
         $tags = trim(substr($match, 9, -2));
         // parse geotag content
